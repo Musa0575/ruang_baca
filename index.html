@@ -43,27 +43,44 @@
                 </div>
                 <div>
                     <span class="text-xl font-bold tracking-tight serif-title text-amber-200">PojokBaca</span>
-                    <span class="hidden sm:inline-block text-xs block text-emerald-400 font-medium">Perpustakaan Digital</span>
+                    <span class="hidden sm:inline-block text-xs block text-emerald-400 font-medium" data-i18n="nav_subtitle">Perpustakaan Digital</span>
                 </div>
             </div>
 
             <!-- Nav Links -->
             <div class="hidden md:flex space-x-6 items-center">
-                <a href="#katalog" class="hover:text-amber-300 transition-colors font-medium text-sm">Katalog Buku</a>
-                <a href="#pojek-fokus" class="hover:text-amber-300 transition-colors font-medium text-sm">Pojok Fokus (Cozy)</a>
-                <a href="#donasi-buku" class="hover:text-amber-300 transition-colors font-medium text-sm">Donasi Buku</a>
-                <a href="#ulasan" class="hover:text-amber-300 transition-colors font-medium text-sm">Ulasan Pembaca</a>
+                <a href="#katalog" class="hover:text-amber-300 transition-colors font-medium text-sm" data-i18n="nav_catalog">Katalog Buku</a>
+                <a href="#pojek-fokus" class="hover:text-amber-300 transition-colors font-medium text-sm" data-i18n="nav_cozy">Pojok Fokus (Cozy)</a>
+                <a href="#donasi-buku" class="hover:text-amber-300 transition-colors font-medium text-sm" data-i18n="nav_donate">Donasi Buku</a>
+                <a href="#ulasan" class="hover:text-amber-300 transition-colors font-medium text-sm" data-i18n="nav_reviews">Ulasan Pembaca</a>
             </div>
 
-            <!-- Dynamic Counters and Fav Button -->
+            <!-- Dynamic Counters, Lang Switcher and Fav Button -->
             <div class="flex items-center space-x-3">
+                <!-- Language Selector Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleLangDropdown(event)" id="lang-btn" class="flex items-center space-x-1.5 px-3 py-2 text-amber-100 hover:text-amber-300 bg-stone-800 hover:bg-stone-750 border border-stone-700/50 rounded-xl text-xs font-semibold tracking-wide transition-all">
+                        <i class="fa-solid fa-globe text-emerald-400"></i>
+                        <span id="current-lang-label">ID</span>
+                        <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
+                    </button>
+                    <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-32 bg-stone-900 border border-stone-850 rounded-xl shadow-2xl z-50 py-1 overflow-hidden">
+                        <button onclick="changeLanguage('id')" class="w-full text-left px-4 py-2 text-xs text-amber-50 hover:bg-stone-800 flex items-center space-x-2">
+                            <span>🇮🇩</span> <span>Indonesia</span>
+                        </button>
+                        <button onclick="changeLanguage('en')" class="w-full text-left px-4 py-2 text-xs text-amber-50 hover:bg-stone-800 flex items-center space-x-2">
+                            <span>🇬🇧</span> <span>English</span>
+                        </button>
+                    </div>
+                </div>
+
                 <button onclick="toggleFavoritePanel()" class="relative p-2 text-amber-100 hover:text-amber-300 transition-colors bg-stone-800 rounded-lg">
                     <i class="fa-solid fa-bookmark text-lg"></i>
                     <span id="fav-badge" class="absolute -top-1 -right-1 bg-amber-500 text-stone-900 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-stone-900">0</span>
                 </button>
                 <a href="#katalog" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-md transition-all flex items-center space-x-2">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <span>Cari Buku</span>
+                    <span data-i18n="nav_search_btn">Cari Buku</span>
                 </a>
             </div>
         </nav>
@@ -76,13 +93,13 @@
             <div class="absolute inset-0 opacity-10 bg-cover bg-center pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
             
             <div class="relative max-w-4xl mx-auto text-center">
-                <span class="bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6 inline-block">
+                <span class="bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6 inline-block" data-i18n="hero_badge">
                     🌱 Ruang Sunyi Untuk Berkelana Lewat Aksara
                 </span>
-                <h1 class="text-4xl md:text-6xl font-extrabold serif-title tracking-tight leading-tight mb-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold serif-title tracking-tight leading-tight mb-6" id="hero-title">
                     Temukan Keheningan,<br><span class="text-amber-300 italic font-normal">Serap Ilmu Pengetahuannya</span>
                 </h1>
-                <p class="text-base md:text-xl text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                <p class="text-base md:text-xl text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed" data-i18n="hero_desc">
                     Selamat datang di PojokBaca. Platform perpustakaan digital mandiri yang menggabungkan kemudahan membaca buku digital dengan ketenangan suasana belajar.
                 </p>
 
@@ -90,19 +107,19 @@
                 <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex items-center space-x-2">
                     <div class="flex-grow flex items-center pl-3">
                         <i class="fa-solid fa-magnifying-glass text-stone-300 mr-2"></i>
-                        <input id="global-search" type="text" placeholder="Cari judul buku, penulis, atau genre..." class="bg-transparent text-white placeholder-stone-400 focus:outline-none w-full text-sm py-2">
+                        <input id="global-search" type="text" placeholder="Cari judul buku, penulis..." class="bg-transparent text-white placeholder-stone-400 focus:outline-none w-full text-sm py-2">
                     </div>
                     <button onclick="handleSearch()" class="bg-amber-400 hover:bg-amber-500 text-stone-900 px-6 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg flex items-center space-x-2">
-                        <span>Cari</span>
+                        <span data-i18n="search_btn_text">Cari</span>
                     </button>
                 </div>
                 
                 <!-- Filter Badges Quick Access -->
                 <div class="flex flex-wrap justify-center gap-2 mt-6">
-                    <button onclick="filterCategory('Semua')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50">#SemuaKoleksi</button>
-                    <button onclick="filterCategory('Fiksi')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50">#Fiksi</button>
-                    <button onclick="filterCategory('Sains')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50">#SainsPopuler</button>
-                    <button onclick="filterCategory('Pengembangan Diri')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50">#SelfImprovement</button>
+                    <button onclick="filterCategory('Semua')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50" data-i18n="tag_all">#SemuaKoleksi</button>
+                    <button onclick="filterCategory('Fiksi')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50" data-i18n="tag_fiction">#Fiksi</button>
+                    <button onclick="filterCategory('Sains')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50" data-i18n="tag_science">#SainsPopuler</button>
+                    <button onclick="filterCategory('Pengembangan Diri')" class="text-xs bg-stone-800/80 hover:bg-stone-700 px-3 py-1.5 rounded-lg border border-stone-700/50" data-i18n="tag_self">#SelfImprovement</button>
                 </div>
             </div>
         </section>
@@ -114,11 +131,10 @@
                 </button>
                 <div class="flex items-center space-x-2 mb-4">
                     <i class="fa-solid fa-bookmark text-amber-400 text-xl"></i>
-                    <h3 class="text-lg font-bold serif-title">Buku Favorit & Bookmark Anda</h3>
+                    <h3 class="text-lg font-bold serif-title" data-i18n="fav_title">Buku Favorit & Bookmark Anda</h3>
                 </div>
                 <div id="fav-list-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <!-- Dynamic Items will render here -->
-                    <p class="text-stone-400 text-sm italic col-span-full text-center py-4">Belum ada buku favorit yang ditambahkan.</p>
                 </div>
             </div>
         </div>
@@ -126,16 +142,12 @@
         <section id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 border-b border-stone-200 pb-5">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-stone-950 serif-title">Rak Buku & Katalog Digital</h2>
-                    <p class="text-stone-500 text-sm mt-1">Pilih dan langsung baca karya literatur berkualitas secara online gratis.</p>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-stone-950 serif-title" data-i18n="catalog_title">Rak Buku & Katalog Digital</h2>
+                    <p class="text-stone-500 text-sm mt-1" data-i18n="catalog_subtitle">Pilih dan langsung baca karya literatur berkualitas secara online gratis.</p>
                 </div>
                 <!-- Categories selection -->
-                <div class="mt-4 md:mt-0 flex overflow-x-auto space-x-2 pb-2 md:pb-0 scrollbar-none">
-                    <button onclick="filterCategory('Semua')" class="category-btn active px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-emerald-800 text-white shadow-sm transition-all">Semua Buku</button>
-                    <button onclick="filterCategory('Fiksi')" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-stone-100 hover:bg-stone-200 text-stone-700 transition-all">Fiksi & Novel</button>
-                    <button onclick="filterCategory('Sains')" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-stone-100 hover:bg-stone-200 text-stone-700 transition-all">Sains & Edukasi</button>
-                    <button onclick="filterCategory('Pengembangan Diri')" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-stone-100 hover:bg-stone-200 text-stone-700 transition-all">Pengembangan Diri</button>
-                    <button onclick="filterCategory('Sejarah')" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-stone-100 hover:bg-stone-200 text-stone-700 transition-all">Sejarah & Filosofi</button>
+                <div class="mt-4 md:mt-0 flex overflow-x-auto space-x-2 pb-2 md:pb-0 scrollbar-none" id="category-bar">
+                    <!-- Dynamic buttons in script -->
                 </div>
             </div>
 
@@ -172,15 +184,15 @@
                     <!-- Left: Metadata and Navigation -->
                     <div class="lg:col-span-4 bg-stone-800/50 p-6 rounded-2xl border border-stone-800 space-y-4">
                         <div class="aspect-[3/4] max-w-[150px] mx-auto bg-stone-700 rounded-xl overflow-hidden shadow-lg border border-stone-600">
-                            <img id="reader-cover" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Cover Buku" class="w-full h-full object-cover">
+                            <img id="reader-cover" src="" alt="Cover Buku" class="w-full h-full object-cover">
                         </div>
                         <div class="text-center">
-                            <p class="font-bold text-base text-amber-200" id="reader-author">Andrea Hirata</p>
-                            <p class="text-xs text-stone-400">Penerbit: PojokBaca Digital</p>
+                            <p class="font-bold text-base text-amber-200" id="reader-author">Author</p>
+                            <p class="text-xs text-stone-400" data-i18n="reader_publisher">Penerbit: PojokBaca Digital</p>
                         </div>
                         <hr class="border-stone-800">
                         <div>
-                            <p class="text-xs font-semibold text-stone-300 uppercase mb-2">Daftar Isi Bab</p>
+                            <p class="text-xs font-semibold text-stone-300 uppercase mb-2" data-i18n="reader_index">Daftar Isi Bab</p>
                             <div class="space-y-1 text-sm text-stone-400" id="reader-chapters">
                                 <!-- Dynamic Chapters generated -->
                             </div>
@@ -197,11 +209,11 @@
                         <!-- Navigation Footer inside Reader -->
                         <div class="mt-6 flex items-center justify-between border-t border-stone-800 pt-4 text-xs text-stone-400">
                             <button id="btn-prev-chapter" onclick="changeChapter(-1)" class="flex items-center space-x-1 bg-stone-800 hover:bg-stone-750 px-3 py-1.5 rounded-lg text-amber-400">
-                                <i class="fa-solid fa-chevron-left"></i> <span>Bab Sebelumnya</span>
+                                <i class="fa-solid fa-chevron-left"></i> <span data-i18n="reader_prev_chap">Bab Sebelumnya</span>
                             </button>
-                            <span id="reader-progress-label">Halaman 1 dari 5</span>
+                            <span id="reader-progress-label">Bab 1 dari 3</span>
                             <button id="btn-next-chapter" onclick="changeChapter(1)" class="flex items-center space-x-1 bg-stone-800 hover:bg-stone-750 px-3 py-1.5 rounded-lg text-amber-400">
-                                <span>Bab Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>
+                                <span data-i18n="reader_next_chap">Bab Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>
                             </button>
                         </div>
                     </div>
@@ -212,9 +224,9 @@
         <section id="pojek-fokus" class="bg-emerald-950 text-emerald-100 py-16 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <span class="bg-emerald-900 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-800">POJOK FOKUS</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold serif-title text-amber-100 mt-2">Ruang Ketenangan & Suasana Cozy</h2>
-                    <p class="text-emerald-400 max-w-xl mx-auto text-sm mt-2">Aktifkan pengatur waktu belajar dan dengarkan suara ambient yang menenangkan untuk fokus membaca Anda.</p>
+                    <span class="bg-emerald-900 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-800" data-i18n="focus_badge">POJOK FOKUS</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold serif-title text-amber-100 mt-2" data-i18n="focus_title">Ruang Ketenangan & Suasana Cozy</h2>
+                    <p class="text-emerald-400 max-w-xl mx-auto text-sm mt-2" data-i18n="focus_subtitle">Aktifkan pengatur waktu belajar dan dengarkan suara ambient yang menenangkan untuk fokus membaca Anda.</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -225,9 +237,9 @@
                                 <div class="bg-emerald-800 text-amber-300 p-2.5 rounded-xl">
                                     <i class="fa-solid fa-stopwatch text-lg"></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-white serif-title">Reading Focus Timer (Pomodoro)</h3>
+                                <h3 class="text-xl font-bold text-white serif-title" data-i18n="timer_card_title">Reading Focus Timer (Pomodoro)</h3>
                             </div>
-                            <p class="text-sm text-emerald-300 mb-8">
+                            <p class="text-sm text-emerald-300 mb-8" data-i18n="timer_card_desc">
                                 Menggunakan metode 25 menit fokus penuh dan 5 menit beristirahat untuk memulihkan kesegaran pikiran Anda saat menyerap materi baru.
                             </p>
                         </div>
@@ -235,19 +247,19 @@
                         <!-- Timer Display -->
                         <div class="text-center py-6 bg-emerald-950/60 rounded-2xl border border-emerald-800 mb-6">
                             <div id="timer-display" class="text-5xl md:text-6xl font-mono font-bold tracking-widest text-amber-300">25:00</div>
-                            <div id="timer-status" class="text-xs text-emerald-400 mt-1 uppercase tracking-wider font-semibold">Sedang Bersiap</div>
+                            <div id="timer-status" class="text-xs text-emerald-400 mt-1 uppercase tracking-wider font-semibold" data-i18n="timer_status_idle">Sedang Bersiap</div>
                         </div>
 
                         <!-- Timer Actions -->
                         <div class="flex items-center justify-center space-x-3">
                             <button id="btn-timer-start" onclick="startTimer()" class="bg-amber-400 hover:bg-amber-500 text-stone-900 px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center space-x-2">
-                                <i class="fa-solid fa-play"></i> <span>Mulai Sesi</span>
+                                <i class="fa-solid fa-play"></i> <span data-i18n="timer_btn_start">Mulai Sesi</span>
                             </button>
                             <button id="btn-timer-pause" onclick="pauseTimer()" class="hidden bg-stone-800 hover:bg-stone-700 text-amber-50 px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center space-x-2">
-                                <i class="fa-solid fa-pause"></i> <span>Jeda</span>
+                                <i class="fa-solid fa-pause"></i> <span data-i18n="timer_btn_pause">Jeda</span>
                             </button>
                             <button onclick="resetTimer()" class="bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 px-6 py-3 rounded-xl font-bold text-sm transition-all flex items-center space-x-2">
-                                <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                                <i class="fa-solid fa-rotate-left"></i> <span data-i18n="timer_btn_reset">Reset</span>
                             </button>
                         </div>
                     </div>
@@ -259,9 +271,9 @@
                                 <div class="bg-emerald-800 text-amber-300 p-2.5 rounded-xl">
                                     <i class="fa-solid fa-music text-lg"></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-white serif-title">Generator Suara Alami (Ambient Synthesizer)</h3>
+                                <h3 class="text-xl font-bold text-white serif-title" data-i18n="synth_title">Generator Suara Alami (Ambient Synthesizer)</h3>
                             </div>
-                            <p class="text-sm text-emerald-300 mb-6">
+                            <p class="text-sm text-emerald-300 mb-6" data-i18n="synth_desc">
                                 Buat suasana kafe syahdu, hujan lebat di luar perpustakaan, atau hutan pegunungan berangin tenang. Tanpa internet eksternal, disintesis langsung menggunakan Web Audio API!
                             </p>
                         </div>
@@ -273,8 +285,8 @@
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-cloud-showers-heavy text-amber-300 text-lg w-6"></i>
                                     <div>
-                                        <p class="text-sm font-semibold text-white">Rintik Hujan Syahdu</p>
-                                        <p class="text-[10px] text-emerald-400">Frekuensi Pink-Noise Relaksasi</p>
+                                        <p class="text-sm font-semibold text-white" data-i18n="ambient_rain_title">Rintik Hujan Syahdu</p>
+                                        <p class="text-[10px] text-emerald-400" data-i18n="ambient_rain_desc">Frekuensi Pink-Noise Relaksasi</p>
                                     </div>
                                 </div>
                                 <button onclick="toggleAmbient('rain')" id="btn-ambient-rain" class="bg-emerald-800 hover:bg-emerald-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all shadow">
@@ -287,8 +299,8 @@
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-mug-saucer text-amber-300 text-lg w-6"></i>
                                     <div>
-                                        <p class="text-sm font-semibold text-white">Suara Hangat Kafe (Pulsing Pad)</p>
-                                        <p class="text-[10px] text-emerald-400">Harmoni Sinusoid Hangat & Teduh</p>
+                                        <p class="text-sm font-semibold text-white" data-i18n="ambient_cafe_title">Suara Hangat Kafe (Pulsing Pad)</p>
+                                        <p class="text-[10px] text-emerald-400" data-i18n="ambient_cafe_desc">Harmoni Sinusoid Hangat & Teduh</p>
                                     </div>
                                 </div>
                                 <button onclick="toggleAmbient('cafe')" id="btn-ambient-cafe" class="bg-emerald-800 hover:bg-emerald-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all shadow">
@@ -301,8 +313,8 @@
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-wind text-amber-300 text-lg w-6"></i>
                                     <div>
-                                        <p class="text-sm font-semibold text-white">Angin & Lonceng Hutan Sore</p>
-                                        <p class="text-[10px] text-emerald-400">Meditasi Lonceng Kaca Alami</p>
+                                        <p class="text-sm font-semibold text-white" data-i18n="ambient_forest_title">Angin & Lonceng Hutan Sore</p>
+                                        <p class="text-[10px] text-emerald-400" data-i18n="ambient_forest_desc">Meditasi Lonceng Kaca Alami</p>
                                     </div>
                                 </div>
                                 <button onclick="toggleAmbient('forest')" id="btn-ambient-forest" class="bg-emerald-800 hover:bg-emerald-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all shadow">
@@ -319,14 +331,14 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Info Left -->
                 <div class="lg:col-span-5 space-y-6">
-                    <span class="bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1 rounded-full text-xs font-semibold uppercase">🤝 Donasi Digital</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold serif-title text-stone-900 leading-tight">Kontribusi untuk Memperluas Literasi</h2>
-                    <p class="text-stone-600 text-sm leading-relaxed">
+                    <span class="bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1 rounded-full text-xs font-semibold uppercase" data-i18n="donate_badge">🤝 Donasi Digital</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold serif-title text-stone-900 leading-tight" data-i18n="donate_title">Kontribusi untuk Memperluas Literasi</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed" data-i18n="donate_desc">
                         Anda punya ringkasan buku, cerpen karya pribadi, atau esai edukasi yang layak dibaca orang banyak? Masukkan karya orisinal Anda ke perpustakaan PojokBaca agar seluruh pembaca dapat mengaksesnya seketika.
                     </p>
                     <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex items-start space-x-3">
                         <i class="fa-solid fa-circle-info text-amber-600 mt-1"></i>
-                        <p class="text-xs text-amber-900 leading-normal">
+                        <p class="text-xs text-amber-900 leading-normal" data-i18n="donate_info">
                             Buku yang Anda kirim akan disimpan sementara di memori internal browser Anda dan dapat langsung diakses pada rak koleksi di atas.
                         </p>
                     </div>
@@ -336,24 +348,24 @@
                 <div class="lg:col-span-7 bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-xl">
                     <h3 class="text-xl font-bold text-stone-900 mb-6 flex items-center space-x-2">
                         <i class="fa-solid fa-feather-pointed text-emerald-600"></i>
-                        <span>Formulir Tambah Buku Digital Baru</span>
+                        <span data-i18n="donate_form_header">Formulir Tambah Buku Digital Baru</span>
                     </h3>
 
                     <form id="form-donate-book" onsubmit="handleDonateBook(event)" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Judul Buku *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_title">Judul Buku *</label>
                                 <input required id="don-title" type="text" placeholder="Contoh: Sang Pemimpi" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Penulis / Pengarang *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_author">Penulis / Pengarang *</label>
                                 <input required id="don-author" type="text" placeholder="Contoh: Andrea Hirata" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Kategori Buku *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_category">Kategori Buku *</label>
                                 <select required id="don-category" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600 bg-white">
                                     <option value="Fiksi">Fiksi & Novel</option>
                                     <option value="Sains">Sains & Edukasi</option>
@@ -362,24 +374,24 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Link URL Foto Sampul (Opsional)</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_cover">Link URL Foto Sampul (Opsional)</label>
                                 <input id="don-cover" type="text" placeholder="https://images.unsplash.com/..." class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-stone-600 mb-1">Deskripsi / Sinopsis Pendek *</label>
+                            <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_synopsis">Deskripsi / Sinopsis Pendek *</label>
                             <textarea required id="don-synopsis" placeholder="Tulis sinopsis ringkas buku ini dalam 1-2 paragraf..." rows="2" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-stone-600 mb-1">Konten / Isi Bab Digital (Tulis isi buku di sini!) *</label>
-                            <textarea required id="don-content" placeholder="Tulis isi buku atau konten bab yang ingin dibaca langsung oleh pengguna..." rows="5" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 font-mono focus:outline-none focus:border-emerald-600"></textarea>
+                            <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="donate_label_content">Konten / Isi Bab Digital (Tulis isi buku di sini!) *</label>
+                            <textarea required id="don-content" placeholder="Tulis isi buku atau konten bab yang ingin dibaca langsung..." rows="5" class="w-full text-sm border border-stone-200 rounded-xl px-4 py-2.5 font-mono focus:outline-none focus:border-emerald-600"></textarea>
                         </div>
 
                         <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-850 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-md flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-cloud-arrow-up"></i>
-                            <span>Daftarkan Buku ke Rak Digital</span>
+                            <span data-i18n="donate_btn_submit">Daftarkan Buku ke Rak Digital</span>
                         </button>
                     </form>
                 </div>
@@ -389,9 +401,9 @@
         <section id="ulasan" class="bg-stone-100 py-16 px-4 border-t border-stone-200">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <span class="bg-stone-200 text-stone-800 px-3 py-1 rounded-full text-xs font-semibold uppercase">💬 Suara Pembaca</span>
-                    <h2 class="text-3xl font-extrabold serif-title text-stone-900 mt-2">Dinding Ulasan & Pendapat Pembaca</h2>
-                    <p class="text-stone-500 max-w-xl mx-auto text-sm mt-1">Dengar apa yang mereka rasakan saat menghabiskan waktu di pojok baca digital kami.</p>
+                    <span class="bg-stone-200 text-stone-800 px-3 py-1 rounded-full text-xs font-semibold uppercase" data-i18n="reviews_badge">💬 Suara Pembaca</span>
+                    <h2 class="text-3xl font-extrabold serif-title text-stone-900 mt-2" data-i18n="reviews_title">Dinding Ulasan & Pendapat Pembaca</h2>
+                    <p class="text-stone-500 max-w-xl mx-auto text-sm mt-1" data-i18n="reviews_subtitle">Dengar apa yang mereka rasakan saat menghabiskan waktu di pojok baca digital kami.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
@@ -399,30 +411,30 @@
                     <div class="md:col-span-4 bg-white p-6 rounded-2xl border border-stone-200 shadow-md">
                         <h3 class="text-base font-bold text-stone-900 mb-4 flex items-center space-x-2">
                             <i class="fa-regular fa-comment-dots text-emerald-600"></i>
-                            <span>Tinggalkan Ulasan Anda</span>
+                            <span data-i18n="reviews_form_header">Tinggalkan Ulasan Anda</span>
                         </h3>
                         <form id="form-review" onsubmit="handleAddReview(event)" class="space-y-4">
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Nama Panggilan *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="reviews_form_name">Nama Panggilan *</label>
                                 <input required id="rev-name" type="text" placeholder="Contoh: Rahmat" class="w-full text-xs border border-stone-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Profesi / Status *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="reviews_form_status">Profesi / Status *</label>
                                 <input required id="rev-status" type="text" placeholder="Contoh: Mahasiswa, Pecinta Novel" class="w-full text-xs border border-stone-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Rating Penilaian *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="reviews_form_rating">Rating Penilaian *</label>
                                 <select id="rev-rating" class="w-full text-xs border border-stone-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600 bg-white">
-                                    <option value="5">⭐⭐⭐⭐⭐ (Sangat Puas)</option>
-                                    <option value="4">⭐⭐⭐⭐ (Puas)</option>
-                                    <option value="3">⭐⭐⭐ (Biasa Saja)</option>
+                                    <option value="5" data-i18n="reviews_rate_5">⭐⭐⭐⭐⭐ (Sangat Puas)</option>
+                                    <option value="4" data-i18n="reviews_rate_4">⭐⭐⭐⭐ (Puas)</option>
+                                    <option value="3" data-i18n="reviews_rate_3">⭐⭐⭐ (Biasa Saja)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-stone-600 mb-1">Pesan Ulasan *</label>
+                                <label class="block text-xs font-semibold text-stone-600 mb-1" data-i18n="reviews_form_msg">Pesan Ulasan *</label>
                                 <textarea required id="rev-text" placeholder="Tulis pengalaman Anda membaca di PojokBaca..." rows="3" class="w-full text-xs border border-stone-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold py-2 px-4 rounded-lg text-xs transition-all shadow">
+                            <button type="submit" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold py-2 px-4 rounded-lg text-xs transition-all shadow" data-i18n="reviews_form_submit">
                                 Kirim Ulasan
                             </button>
                         </form>
@@ -444,29 +456,29 @@
                     <i class="fa-solid fa-book-open"></i>
                     <span>PojokBaca</span>
                 </div>
-                <p class="text-xs text-stone-500 leading-relaxed">
+                <p class="text-xs text-stone-500 leading-relaxed" data-i18n="footer_brand_desc">
                     Menghubungkan masyarakat dengan dunia literatur berkualitas dalam ruang digital yang tenang, rileks, dan ramah pengguna.
                 </p>
             </div>
             <div>
-                <h4 class="text-sm font-semibold text-stone-200 mb-3">Tautan Cepat</h4>
+                <h4 class="text-sm font-semibold text-stone-200 mb-3" data-i18n="footer_header_quicklinks">Tautan Cepat</h4>
                 <ul class="text-xs space-y-2">
-                    <li><a href="#katalog" class="hover:underline hover:text-white">Katalog Utama</a></li>
-                    <li><a href="#pojek-fokus" class="hover:underline hover:text-white">Pojok Fokus Pomodoro</a></li>
-                    <li><a href="#donasi-buku" class="hover:underline hover:text-white">Form Donasi Buku</a></li>
+                    <li><a href="#katalog" class="hover:underline hover:text-white" data-i18n="footer_link_catalog">Katalog Utama</a></li>
+                    <li><a href="#pojek-fokus" class="hover:underline hover:text-white" data-i18n="footer_link_timer">Pojok Fokus Pomodoro</a></li>
+                    <li><a href="#donasi-buku" class="hover:underline hover:text-white" data-i18n="footer_link_donate">Form Donasi Buku</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-sm font-semibold text-stone-200 mb-3">Kategori Terpopuler</h4>
+                <h4 class="text-sm font-semibold text-stone-200 mb-3" data-i18n="footer_header_categories">Kategori Terpopuler</h4>
                 <ul class="text-xs space-y-2">
-                    <li><a href="#" onclick="filterCategory('Fiksi'); return false;" class="hover:underline hover:text-white">Novel & Sastra</a></li>
-                    <li><a href="#" onclick="filterCategory('Sains'); return false;" class="hover:underline hover:text-white">Sains Populer & Matematika</a></li>
-                    <li><a href="#" onclick="filterCategory('Pengembangan Diri'); return false;" class="hover:underline hover:text-white">Pengembangan Karakter</a></li>
+                    <li><a href="#" onclick="filterCategory('Fiksi'); return false;" class="hover:underline hover:text-white" data-i18n="cat_fiction">Fiksi & Novel</a></li>
+                    <li><a href="#" onclick="filterCategory('Sains'); return false;" class="hover:underline hover:text-white" data-i18n="cat_science">Sains & Edukasi</a></li>
+                    <li><a href="#" onclick="filterCategory('Pengembangan Diri'); return false;" class="hover:underline hover:text-white" data-i18n="cat_self">Pengembangan Diri</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="text-sm font-semibold text-stone-200 mb-3 font-mono">PojokBaca Node</h4>
-                <p class="text-xs text-stone-500 mb-2">Didukung oleh ekosistem luring mandiri untuk menaikkan minat baca bangsa.</p>
+                <p class="text-xs text-stone-500 mb-2" data-i18n="footer_brand_subtext">Didukung oleh ekosistem luring mandiri untuk menaikkan minat baca bangsa.</p>
                 <div class="flex space-x-3 text-stone-400 text-base">
                     <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" class="hover:text-white"><i class="fa-brands fa-github"></i></a>
@@ -475,101 +487,373 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto border-t border-stone-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-600">
-            <p>&copy; 2026 PojokBaca Digital Library Corp. Hak cipta dilindungi.</p>
+            <p data-i18n="footer_copyright">&copy; 2026 PojokBaca Digital Library Corp. Hak cipta dilindungi.</p>
             <p class="mt-2 sm:mt-0 flex items-center space-x-1">
-                <span>Dibuat penuh dengan cinta & kedamaian</span> <i class="fa-solid fa-heart text-red-700"></i>
+                <span data-i18n="footer_made_with">Dibuat penuh dengan cinta & kedamaian</span> <i class="fa-solid fa-heart text-red-700"></i>
             </p>
         </div>
     </footer>
 
     <script>
-        // --- 1. MOCK DATA INITIALIZATION ---
-        const INITIAL_BOOKS = [
-            {
-                id: "book-1",
-                title: "Laskar Pelangi",
-                author: "Andrea Hirata",
-                category: "Fiksi",
-                cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80",
-                synopsis: "Kisah perjuangan sepuluh anak di Belitong yang bersekolah di sebuah sekolah dasar yang kondisinya sangat mengenaskan namun penuh dengan tekad juang tinggi.",
-                chapters: [
-                    "Bab I: Sepuluh Anggota Baru - Hari pertama pendaftaran sekolah dasar Muhammadiyah di Gantong dipenuhi kecemasan mendalam oleh kedua guru utama.",
-                    "Bab II: Menara Suar Belitong - Menatap hamparan laut dan pulau terluar dari mercusuar, menyimpan impian para anak pesisir untuk mendobrak keterbatasan.",
-                    "Bab III: Lintang sang Genius - Bocah pengayuh sepeda sejauh 40 kilometer yang membawa aura kecemerlangan murni di dalam ruang kelas sederhana kita."
-                ]
+        const TRANSLATIONS = {
+            id: {
+                nav_subtitle: "Perpustakaan Digital",
+                nav_catalog: "Katalog Buku",
+                nav_cozy: "Pojok Fokus (Cozy)",
+                nav_donate: "Donasi Buku",
+                nav_reviews: "Ulasan Pembaca",
+                nav_search_btn: "Cari Buku",
+                hero_badge: "🌱 Ruang Sunyi Untuk Berkelana Lewat Aksara",
+                hero_title_html: "Temukan Keheningan,<br><span class='text-amber-300 italic font-normal'>Serap Ilmu Pengetahuannya</span>",
+                hero_desc: "Selamat datang di PojokBaca. Platform perpustakaan digital mandiri yang menggabungkan kemudahan membaca buku digital dengan ketenangan suasana belajar.",
+                search_placeholder: "Cari judul buku, penulis, atau genre...",
+                search_btn_text: "Cari",
+                tag_all: "#SemuaKoleksi",
+                tag_fiction: "#Fiksi",
+                tag_science: "#SainsPopuler",
+                tag_self: "#SelfImprovement",
+                fav_title: "Buku Favorit & Bookmark Anda",
+                fav_empty: "Belum ada buku favorit yang ditambahkan.",
+                fav_item_open: "Buka Buku",
+                catalog_title: "Rak Buku & Katalog Digital",
+                catalog_subtitle: "Pilih dan langsung baca karya literatur berkualitas secara online gratis.",
+                cat_all: "Semua Buku",
+                cat_fiction: "Fiksi & Novel",
+                cat_science: "Sains & Edukasi",
+                cat_self: "Pengembangan Diri",
+                cat_history: "Sejarah & Filosofi",
+                action_read: "Baca Sekarang",
+                action_ready: "Digital Ready",
+                search_not_found: "Buku tidak ditemukan",
+                search_not_found_desc: "Coba cari kata kunci lain atau pilih kategori berbeda.",
+                reader_publisher: "Penerbit: PojokBaca Digital",
+                reader_index: "Daftar Isi Bab",
+                reader_prev_chap: "Bab Sebelumnya",
+                reader_next_chap: "Bab Selanjutnya",
+                reader_closed_toast: "Pembaca digital ditutup.",
+                focus_badge: "POJOK FOKUS",
+                focus_title: "Ruang Ketenangan & Suasana Cozy",
+                focus_subtitle: "Aktifkan pengatur waktu belajar dan dengarkan suara ambient yang menenangkan untuk fokus membaca Anda.",
+                timer_card_title: "Reading Focus Timer (Pomodoro)",
+                timer_card_desc: "Menggunakan metode 25 menit fokus penuh dan 5 menit beristirahat untuk memulihkan kesegaran pikiran Anda saat menyerap materi baru.",
+                timer_status_idle: "Sedang Bersiap",
+                timer_status_focus: "Sesi Fokus Membaca",
+                timer_status_break: "Istirahat Sejenak",
+                timer_status_paused: "Jeda Sementara",
+                timer_btn_start: "Mulai Sesi",
+                timer_btn_pause: "Jeda",
+                timer_btn_reset: "Reset",
+                timer_toast_focus_done: "Sesi fokus selesai! Istirahatkan mata Anda selama 5 menit.",
+                timer_toast_break_done: "Waktu istirahat selesai! Kembali fokus membaca.",
+                synth_title: "Generator Suara Alami (Ambient Synthesizer)",
+                synth_desc: "Buat suasana kafe syahdu, hujan lebat di luar perpustakaan, atau hutan pegunungan berangin tenang. Tanpa internet eksternal, disintesis langsung menggunakan Web Audio API!",
+                ambient_rain_title: "Rintik Hujan Syahdu",
+                ambient_rain_desc: "Frekuensi Pink-Noise Relaksasi",
+                ambient_cafe_title: "Suara Hangat Kafe (Pulsing Pad)",
+                ambient_cafe_desc: "Harmoni Sinusoid Hangat & Teduh",
+                ambient_forest_title: "Angin & Lonceng Hutan Sore",
+                ambient_forest_desc: "Meditasi Lonceng Kaca Alami",
+                ambient_stopped: "dihentikan",
+                ambient_activated: "diaktifkan",
+                donate_badge: "🤝 Donasi Digital",
+                donate_title: "Kontribusi untuk Memperluas Literasi",
+                donate_desc: "Anda punya ringkasan buku, cerpen karya pribadi, atau esai edukasi yang layak dibaca orang banyak? Masukkan karya orisinal Anda ke perpustakaan PojokBaca agar seluruh pembaca dapat mengaksesnya seketika.",
+                donate_info: "Buku yang Anda kirim akan disimpan sementara di memori internal browser Anda dan dapat langsung diakses pada rak koleksi di atas.",
+                donate_form_header: "Formulir Tambah Buku Digital Baru",
+                donate_label_title: "Judul Buku *",
+                donate_label_author: "Penulis / Pengarang *",
+                donate_label_category: "Kategori Buku *",
+                donate_label_cover: "Link URL Foto Sampul (Opsional)",
+                donate_label_synopsis: "Deskripsi / Sinopsis Pendek *",
+                donate_label_content: "Konten / Isi Bab Digital (Tulis isi buku di sini!) *",
+                donate_btn_submit: "Daftarkan Buku ke Rak Digital",
+                donate_success_toast: "Buku berhasil didaftarkan di katalog!",
+                reviews_badge: "💬 Suara Pembaca",
+                reviews_title: "Dinding Ulasan & Pendapat Pembaca",
+                reviews_subtitle: "Dengar apa yang mereka rasakan saat menghabiskan waktu di pojok baca digital kami.",
+                reviews_form_header: "Tinggalkan Ulasan Anda",
+                reviews_form_name: "Nama Panggilan *",
+                reviews_form_status: "Profesi / Status *",
+                reviews_form_rating: "Rating Penilaian *",
+                reviews_form_msg: "Pesan Ulasan *",
+                reviews_form_submit: "Kirim Ulasan",
+                reviews_success_toast: "Ulasan Anda berhasil diterbitkan pada feed pembaca!",
+                reviews_rate_5: "⭐⭐⭐⭐⭐ (Sangat Puas)",
+                reviews_rate_4: "⭐⭐⭐⭐ (Puas)",
+                reviews_rate_3: "⭐⭐⭐ (Biasa Saja)",
+                footer_brand_desc: "Menghubungkan masyarakat dengan dunia literatur berkualitas dalam ruang digital yang tenang, rileks, dan ramah pengguna.",
+                footer_brand_subtext: "Didukung oleh ekosistem luring mandiri untuk menaikkan minat baca bangsa.",
+                footer_header_quicklinks: "Tautan Cepat",
+                footer_header_categories: "Kategori Terpopuler",
+                footer_link_catalog: "Katalog Utama",
+                footer_link_timer: "Pojok Fokus Pomodoro",
+                footer_link_donate: "Form Donasi Buku",
+                footer_copyright: "&copy; 2026 PojokBaca Digital Library Corp. Hak cipta dilindungi.",
+                footer_made_with: "Dibuat penuh dengan cinta & kedamaian",
+                bookmark_added: "Buku ditambahkan ke bookmark!",
+                bookmark_removed: "Buku dihapus dari bookmark."
             },
-            {
-                id: "book-2",
-                title: "Filosofi Teras",
-                author: "Henry Manampiring",
-                category: "Pengembangan Diri",
-                cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
-                synopsis: "Buku pengenalan stoisisme (filosofi Yunani kuno) praktis untuk mental yang lebih tangguh, tenang, dan bebas dari cemas berlebihan di era modern.",
-                chapters: [
-                    "Bab I: Dikotomi Kendali - Memisahkan hal-hal yang berada di bawah kendali penuh kita dan hal-hal di luar kontrol kita untuk kedamaian batin.",
-                    "Bab II: Menjinakkan Emosi Negatif - Bagaimana persepsi kita, bukan peristiwa eksternal, yang sebenarnya memicu rasa panik dan amarah yang merusak.",
-                    "Bab III: Mempersiapkan Skenario Terburuk - Premeditatio Malorum sebagai sarana latihan kesiapan mental menghadapi tantangan terberat kehidupan."
-                ]
-            },
-            {
-                id: "book-3",
-                title: "Kosmos: Menelusuri Semesta",
-                author: "Carl Sagan",
-                category: "Sains",
-                cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
-                synopsis: "Penjelajahan sains populer agung mengenai perkembangan peradaban manusia, alam semesta, pencarian kecerdasan ekstraterestrial, dan tempat kita di angkasa.",
-                chapters: [
-                    "Bab I: Batas-Batas Samudra Kosmik - Pengenalan skala masif kosmos dibandingkan planet bumi kita yang hanyalah setitik debu pucat di tengah samudra gulita.",
-                    "Bab II: Sejarah Kehidupan di Bumi - Evolusi kompleksitas biokimiawi dari sup organik purba hingga terciptanya kesadaran berfikir manusia.",
-                    "Bab III: Harmoni Dunia Baru - Bagaimana rasa ingin tahu membebaskan manusia dari takhayul menuju fondasi penalaran sains yang empiris."
-                ]
-            },
-            {
-                id: "book-4",
-                title: "Sejarah Ringkas Nusantara",
-                author: "Prof. Dr. Slamet Mulyono",
-                category: "Sejarah",
-                cover: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80",
-                synopsis: "Melihat riwayat maritim kepulauan nusantara dari era kejayaan Sriwijaya, kosmopolitanisme Majapahit, hingga transformasi perdagangan jalur rempah.",
-                chapters: [
-                    "Bab I: Jaringan Pelaut Kuno - Melacak pergerakan kapal bercadik nusantara menjangkau pesisir Madagaskar dan Tiongkok Selatan pada abad ke-5.",
-                    "Bab II: Kemegahan di Atas Air - Tata kota kerajaan bahari Sriwijaya yang menguasai Selat Malaka sebagai pusat penyebaran pengetahuan trans-nasional.",
-                    "Bab III: Keruntuhan Kerajaan Agraris - Peralihan kekuatan geopolitik akibat perebutan jalur perdagangan rempah utama oleh serikat dagang Barat."
-                ]
+            en: {
+                nav_subtitle: "Digital Library",
+                nav_catalog: "Book Catalog",
+                nav_cozy: "Focus Zone (Cozy)",
+                nav_donate: "Donate Book",
+                nav_reviews: "Reader Reviews",
+                nav_search_btn: "Find Books",
+                hero_badge: "🌱 A Peaceful Oasis of Literary Journey",
+                hero_title_html: "Find Tranquility,<br><span class='text-amber-300 italic font-normal'>Absorb Infinite Knowledge</span>",
+                hero_desc: "Welcome to PojokBaca. A standalone digital library platform blending ease of reading with a serene, undistracted learning atmosphere.",
+                search_placeholder: "Search book title, author, or genre...",
+                search_btn_text: "Search",
+                tag_all: "#AllCollections",
+                tag_fiction: "#Fiction",
+                tag_science: "#PopularScience",
+                tag_self: "#SelfImprovement",
+                fav_title: "Your Bookmarks & Favorites",
+                fav_empty: "No favorite books added yet.",
+                fav_item_open: "Open Book",
+                catalog_title: "Digital Bookshelves & Catalog",
+                catalog_subtitle: "Choose and instantly read high-quality literary works online for free.",
+                cat_all: "All Books",
+                cat_fiction: "Fiction & Novels",
+                cat_science: "Science & Education",
+                cat_self: "Self Improvement",
+                cat_history: "History & Philosophy",
+                action_read: "Read Now",
+                action_ready: "Digital Ready",
+                search_not_found: "Book not found",
+                search_not_found_desc: "Try searching with other keywords or choose a different category.",
+                reader_publisher: "Publisher: PojokBaca Digital",
+                reader_index: "Table of Contents",
+                reader_prev_chap: "Previous Chapter",
+                reader_next_chap: "Next Chapter",
+                reader_closed_toast: "Digital reader closed.",
+                focus_badge: "FOCUS ZONE",
+                focus_title: "Tranquility Zone & Cozy Vibe",
+                focus_subtitle: "Activate the learning focus timer and listen to soothing ambient sounds to elevate your reading concentration.",
+                timer_card_title: "Reading Focus Timer (Pomodoro)",
+                timer_card_desc: "Utilizing 25 minutes of high-intensity focus and 5 minutes of brief rest to restore your mental freshness.",
+                timer_status_idle: "Getting Ready",
+                timer_status_focus: "Reading Focus Session",
+                timer_status_break: "Short Rest Vibe",
+                timer_status_paused: "Paused Temporary",
+                timer_btn_start: "Start Session",
+                timer_btn_pause: "Pause",
+                timer_btn_reset: "Reset",
+                timer_toast_focus_done: "Focus session complete! Give your eyes a 5-minute break.",
+                timer_toast_break_done: "Break time is over! Time to focus on reading again.",
+                synth_title: "Ambient Natural Sound Synthesizer",
+                synth_desc: "Create a soothing coffee shop vibe, heavy rain pouring outside, or wind chimes in a calm mountain forest. Synthesized directly using Web Audio API!",
+                ambient_rain_title: "Gentle Rain Drops",
+                ambient_rain_desc: "Pink-Noise Relaxation Frequency",
+                ambient_cafe_title: "Cozy Café Resonance (Pulsing Pad)",
+                ambient_cafe_desc: "Warm & Tender Sinusoidal Harmony",
+                ambient_forest_title: "Forest Wind & Soft Chimes",
+                ambient_forest_desc: "Wind-blown Natural Glass Chime Meditation",
+                ambient_stopped: "stopped",
+                ambient_activated: "activated",
+                donate_badge: "🤝 Digital Donation",
+                donate_title: "Contribute to Spread Literacy",
+                donate_desc: "Do you have book summaries, personal short stories, or educational essays? Contribute your original work here so other readers can access it instantly.",
+                donate_info: "The books you submit will be temporarily stored in your browser's local memory and can be accessed directly from the shelf above.",
+                donate_form_header: "Contribute a New Digital Book",
+                donate_label_title: "Book Title *",
+                donate_label_author: "Writer / Author *",
+                donate_label_category: "Book Category *",
+                donate_label_cover: "Cover Image URL Link (Optional)",
+                donate_label_synopsis: "Short Synopsis / Description *",
+                donate_label_content: "Digital Content (Write your chapters here!) *",
+                donate_btn_submit: "Register Book to Digital Shelf",
+                donate_success_toast: "Book registered successfully in the catalog!",
+                reviews_badge: "💬 Voice of Readers",
+                reviews_title: "Review Board & Reader Testimonials",
+                reviews_subtitle: "Hear what they feel when spending their precious hours inside our digital library cozy space.",
+                reviews_form_header: "Leave Your Honest Review",
+                reviews_form_name: "Nickname *",
+                reviews_form_status: "Profession / Status *",
+                reviews_form_rating: "Your Rating *",
+                reviews_form_msg: "Review Message *",
+                reviews_form_submit: "Submit Review",
+                reviews_success_toast: "Your review has been successfully published to the feed!",
+                reviews_rate_5: "⭐⭐⭐⭐⭐ (Extremely Satisfied)",
+                reviews_rate_4: "⭐⭐⭐⭐ (Satisfied)",
+                reviews_rate_3: "⭐⭐⭐ (Average)",
+                footer_brand_desc: "Connecting communities with world-class quality literature in a peaceful, cozy, and user-friendly digital room.",
+                footer_brand_subtext: "Supported by an independent offline network to boost nationwide reading interest.",
+                footer_header_quicklinks: "Quick Navigation",
+                footer_header_categories: "Trending Categories",
+                footer_link_catalog: "Primary Catalog",
+                footer_link_timer: "Pomodoro Timer Room",
+                footer_link_donate: "Contribute Book Form",
+                footer_copyright: "&copy; 2026 PojokBaca Digital Library Corp. All rights reserved.",
+                footer_made_with: "Made with genuine love & peace",
+                bookmark_added: "Book successfully added to bookmarks!",
+                bookmark_removed: "Book removed from bookmarks."
             }
-        ];
+        };
 
-        const INITIAL_REVIEWS = [
-            { name: "Rizky Ramadhan", status: "Guru SMP", rating: 5, text: "Platform yang luar biasa nyaman digunakan! Suara gemuruh hujan membuat saya tahan membaca novel fiksi berjam-jam tanpa tergoda membuka media sosial." },
-            { name: "Siti Humairah", status: "Pelajar SMA", rating: 5, text: "Fasilitas donasi bukunya keren sekali. Saya baru mencoba upload esai buatan saya, dan seketika langsung bisa dibaca di katalog. Menambah motivasi menulis!" },
-            { name: "Andi Wijaya", status: "Book Enthusiast", rating: 4, text: "Sistem e-readernya responsif di HP saya. Sangat jarang ada perpustakaan digital lokal dengan user interface sebersih ini." }
-        ];
+        const BILINGUAL_BOOKS = {
+            id: [
+                {
+                    id: "book-1",
+                    title: "Laskar Pelangi",
+                    author: "Andrea Hirata",
+                    category: "Fiksi",
+                    cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "Kisah perjuangan sepuluh anak di Belitong yang bersekolah di sebuah sekolah dasar yang kondisinya sangat mengenaskan namun penuh dengan tekad juang tinggi.",
+                    chapters: [
+                        "Bab I: Sepuluh Anggota Baru - Hari pertama pendaftaran sekolah dasar Muhammadiyah di Gantong dipenuhi kecemasan mendalam oleh kedua guru utama.",
+                        "Bab II: Menara Suar Belitong - Menatap hamparan laut dan pulau terluar dari mercusuar, menyimpan impian para anak pesisir untuk mendobrak keterbatasan.",
+                        "Bab III: Lintang sang Genius - Bocah pengayuh sepeda sejauh 40 kilometer yang membawa aura kecemerlangan murni di dalam ruang kelas sederhana kita."
+                    ]
+                },
+                {
+                    id: "book-2",
+                    title: "Filosofi Teras",
+                    author: "Henry Manampiring",
+                    category: "Pengembangan Diri",
+                    cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "Buku pengenalan stoisisme (filosofi Yunani kuno) praktis untuk mental yang lebih tangguh, tenang, dan bebas dari cemas berlebihan di era modern.",
+                    chapters: [
+                        "Bab I: Dikotomi Kendali - Memisahkan hal-hal yang berada di bawah kendali penuh kita dan hal-hal di luar kontrol kita untuk kedamaian batin.",
+                        "Bab II: Menjinakkan Emosi Negatif - Bagaimana persepsi kita, bukan peristiwa eksternal, yang sebenarnya memicu rasa panik dan amarah yang merusak.",
+                        "Bab III: Mempersiapkan Skenario Terburuk - Premeditatio Malorum sebagai sarana latihan kesiapan mental menghadapi tantangan terberat kehidupan."
+                    ]
+                },
+                {
+                    id: "book-3",
+                    title: "Kosmos: Menelusuri Semesta",
+                    author: "Carl Sagan",
+                    category: "Sains",
+                    cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "Penjelajahan sains populer agung mengenai perkembangan peradaban manusia, alam semesta, pencarian kecerdasan ekstraterestrial, dan tempat kita di angkasa.",
+                    chapters: [
+                        "Bab I: Batas-Batas Samudra Kosmik - Pengenalan skala masif kosmos dibandingkan planet bumi kita yang hanyalah setitik debu pucat di tengah samudra gulita.",
+                        "Bab II: Sejarah Kehidupan di Bumi - Evolusi kompleksitas biokimiawi dari sup organik purba hingga terciptanya kesadaran berfikir manusia.",
+                        "Bab III: Harmoni Dunia Baru - Bagaimana rasa ingin tahu membebaskan manusia dari takhayul menuju fondasi penalaran sains yang empiris."
+                    ]
+                },
+                {
+                    id: "book-4",
+                    title: "Sejarah Ringkas Nusantara",
+                    author: "Prof. Dr. Slamet Mulyono",
+                    category: "Sejarah",
+                    cover: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "Melihat riwayat maritim kepulauan nusantara dari era kejayaan Sriwijaya, kosmopolitanisme Majapahit, hingga transformasi perdagangan jalur rempah.",
+                    chapters: [
+                        "Bab I: Jaringan Pelaut Kuno - Melacak pergerakan kapal bercadik nusantara menjangkau pesisir Madagaskar dan Tiongkok Selatan pada abad ke-5.",
+                        "Bab II: Kemegahan di Atas Air - Tata kota kerajaan bahari Sriwijaya yang menguasai Selat Malaka sebagai pusat penyebaran pengetahuan trans-nasional.",
+                        "Bab III: Keruntuhan Kerajaan Agraris - Peralihan kekuatan geopolitik akibat perebutan jalur perdagangan rempah utama oleh serikat dagang Barat."
+                    ]
+                }
+            ],
+            en: [
+                {
+                    id: "book-1",
+                    title: "The Rainbow Troops",
+                    author: "Andrea Hirata",
+                    category: "Fiksi",
+                    cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "The inspiring story of ten students in Belitong who fight for education against all odds in a decrepit village elementary school.",
+                    chapters: [
+                        "Chapter I: Ten New Recruits - The first day of registration at the humble Muhammadiyah elementary school in Gantong was filled with deep anxiety from the main teachers.",
+                        "Chapter II: The Lighthouse of Belitong - Gearing up into the high seaside horizon, keeping alive the dreams of coastal children to shatter ancestral limitations.",
+                        "Chapter III: Lintang the Genius - A small boy cycling 40 kilometers every single day, bringing an aura of pure brilliant intellect into our poor classroom."
+                    ]
+                },
+                {
+                    id: "book-2",
+                    title: "The Patio Philosophy",
+                    author: "Henry Manampiring",
+                    category: "Pengembangan Diri",
+                    cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "A practical guide to Stoicism (ancient Greek philosophy) to build mental resilience, quietude, and a life free from anxiety in modern times.",
+                    chapters: [
+                        "Chapter I: Dichotomy of Control - Separating things that are entirely under our internal power and external forces beyond our reach for supreme peace.",
+                        "Chapter II: Taming Negative Affections - How our own immediate perception, not external happenings, triggers panic and anger that break our focus.",
+                        "Chapter III: Premeditating Worst Scenarios - Utilizing Premeditatio Malorum as a training ground for our mind to stand strong in life's hardest blows."
+                    ]
+                },
+                {
+                    id: "book-3",
+                    title: "Cosmos: A Personal Voyage",
+                    author: "Carl Sagan",
+                    category: "Sains",
+                    cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "The landmark popular science chronicle exploring human civilization, the universe, scientific history, and our unique place in space.",
+                    chapters: [
+                        "Chapter I: The Shores of the Cosmic Ocean - Introducing the gigantic scales of cosmic light years compared to our tiny pale blue dot planet.",
+                        "Chapter II: History of Living Organisms - The intricate chemical evolution starting from primitive organic soups to human cognitive self-awareness.",
+                        "Chapter III: The Harmony of New Worlds - How the persistent curiosity of mankind broke free from myths to lay the empirical pillars of modern science."
+                    ]
+                },
+                {
+                    id: "book-4",
+                    title: "Brief History of Nusantara",
+                    author: "Prof. Dr. Slamet Mulyono",
+                    category: "Sejarah",
+                    cover: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80",
+                    synopsis: "Tracing back the rich maritime history of Southeast Asia from the gold empire of Sriwijaya, Majapahit globalism, to the spice trade wars.",
+                    chapters: [
+                        "Chapter I: Ancient Sailors Network - Tracing outrigger vessel voyages mapping oceans and reaching Madagascar and South China in the 5th century.",
+                        "Chapter II: Splendor Above Sea - The urban planning of coastal Buddhist kingdom Sriwijaya dominating Malacca Strait as an ancient knowledge hub.",
+                        "Chapter III: Decline of Agrarian Sovereignty - The shift of geopolitical power due to conflict over main spices routes led by Western commercial VOC."
+                    ]
+                }
+            ]
+        };
 
-        // Global State Variables
+        const BILINGUAL_REVIEWS = {
+            id: [
+                { name: "Rizky Ramadhan", status: "Guru SMP", rating: 5, text: "Platform yang luar biasa nyaman digunakan! Suara gemuruh hujan membuat saya tahan membaca novel fiksi berjam-jam tanpa tergoda membuka media sosial." },
+                { name: "Siti Humairah", status: "Pelajar SMA", rating: 5, text: "Fasilitas donasi bukunya keren sekali. Saya baru mencoba upload esai buatan saya, dan seketika langsung bisa dibaca di katalog. Menambah motivasi menulis!" },
+                { name: "Andi Wijaya", status: "Pecinta Buku", rating: 4, text: "Sistem e-readernya responsif di HP saya. Sangat jarang ada perpustakaan digital lokal dengan user interface sebersih ini." }
+            ],
+            en: [
+                { name: "Marcus Miller", status: "Teacher", rating: 5, text: "An exceptionally comfortable reading experience! The thunderstorm synthesis keeps me focused on novels for hours without distraction." },
+                { name: "Sophia Watson", status: "High School Student", rating: 5, text: "The upload feature is fantastic. I contributed my draft essay, and it instantly appeared on the shelves. Tremendously motivating!" },
+                { name: "David K.", status: "Book Collector", rating: 4, text: "The e-reader is fully responsive on mobile screens. Extremely neat interface compared to old rigid digital libraries." }
+            ]
+        };
+
+        let currentLang = 'id';
         let books = [];
         let reviews = [];
         let bookmarks = [];
         let currentCategory = 'Semua';
         let searchQuery = '';
 
-        // --- 2. LOCAL STORAGE INTEGRATION ---
         function initStorage() {
-            if (!localStorage.getItem('pj_books')) {
-                localStorage.setItem('pj_books', JSON.stringify(INITIAL_BOOKS));
-            }
-            if (!localStorage.getItem('pj_reviews')) {
-                localStorage.setItem('pj_reviews', JSON.stringify(INITIAL_REVIEWS));
-            }
-            if (!localStorage.getItem('pj_bookmarks')) {
-                localStorage.setItem('pj_bookmarks', JSON.stringify([]));
+            // Retrieve language preference
+            const savedLang = localStorage.getItem('pj_lang');
+            if (savedLang) {
+                currentLang = savedLang;
+            } else {
+                localStorage.setItem('pj_lang', currentLang);
             }
 
-            books = JSON.parse(localStorage.getItem('pj_books'));
-            reviews = JSON.parse(localStorage.getItem('pj_reviews'));
+            // Load localized books
+            const savedBooks = localStorage.getItem(`pj_books_${currentLang}`);
+            if (!savedBooks) {
+                localStorage.setItem(`pj_books_${currentLang}`, JSON.stringify(BILINGUAL_BOOKS[currentLang]));
+            }
+            books = JSON.parse(localStorage.getItem(`pj_books_${currentLang}`));
+
+            // Load localized reviews
+            const savedReviews = localStorage.getItem(`pj_reviews_${currentLang}`);
+            if (!savedReviews) {
+                localStorage.setItem(`pj_reviews_${currentLang}`, JSON.stringify(BILINGUAL_REVIEWS[currentLang]));
+            }
+            reviews = JSON.parse(localStorage.getItem(`pj_reviews_${currentLang}`));
+
+            // Load bookmarks
+            const savedBookmarks = localStorage.getItem('pj_bookmarks');
+            if (!savedBookmarks) {
+                localStorage.setItem('pj_bookmarks', JSON.stringify([]));
+            }
             bookmarks = JSON.parse(localStorage.getItem('pj_bookmarks'));
         }
 
-        // Custom notification helper
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -582,12 +866,10 @@
             
             container.appendChild(toast);
             
-            // Trigger animation
             setTimeout(() => {
                 toast.classList.remove('translate-y-2', 'opacity-0');
             }, 50);
 
-            // Remove after duration
             setTimeout(() => {
                 toast.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => {
@@ -596,7 +878,88 @@
             }, 4000);
         }
 
-        // --- 3. UI RENDERING SYSTEM ---
+        function toggleLangDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            document.getElementById('lang-dropdown').classList.add('hidden');
+        });
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('pj_lang', lang);
+            document.getElementById('current-lang-label').textContent = lang.toUpperCase();
+            
+            // Reload storage dataset to swap language database
+            const savedBooks = localStorage.getItem(`pj_books_${lang}`);
+            if (!savedBooks) {
+                localStorage.setItem(`pj_books_${lang}`, JSON.stringify(BILINGUAL_BOOKS[lang]));
+            }
+            books = JSON.parse(localStorage.getItem(`pj_books_${lang}`));
+
+            const savedReviews = localStorage.getItem(`pj_reviews_${lang}`);
+            if (!savedReviews) {
+                localStorage.setItem(`pj_reviews_${lang}`, JSON.stringify(BILINGUAL_REVIEWS[lang]));
+            }
+            reviews = JSON.parse(localStorage.getItem(`pj_reviews_${lang}`));
+
+            // Trigger complete translation translation
+            translatePage();
+            renderCategoryBar();
+            renderBooks();
+            renderFavorites();
+            renderReviews();
+            
+            // Adjust form placeholders
+            document.getElementById('global-search').placeholder = TRANSLATIONS[currentLang].search_placeholder;
+            
+            // If reader is open, close it to avoid inconsistent language reading state
+            document.getElementById('reader-section').classList.add('hidden');
+        }
+
+        function translatePage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) {
+                    element.textContent = TRANSLATIONS[currentLang][key];
+                }
+            });
+
+            // Handle special HTML nodes
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                heroTitle.innerHTML = TRANSLATIONS[currentLang].hero_title_html;
+            }
+        }
+
+        function renderCategoryBar() {
+            const bar = document.getElementById('category-bar');
+            const categories = [
+                { name: 'Semua', key: 'cat_all' },
+                { name: 'Fiksi', key: 'cat_fiction' },
+                { name: 'Sains', key: 'cat_science' },
+                { name: 'Pengembangan Diri', key: 'cat_self' },
+                { name: 'Sejarah', key: 'cat_history' }
+            ];
+
+            bar.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                const isSelected = (currentCategory === cat.name);
+                btn.className = `category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                    isSelected ? 'bg-emerald-800 text-white shadow-sm' : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+                }`;
+                btn.textContent = TRANSLATIONS[currentLang][cat.key];
+                btn.onclick = () => filterCategory(cat.name);
+                bar.appendChild(btn);
+            });
+        }
+
         function renderBooks() {
             const grid = document.getElementById('books-grid');
             grid.innerHTML = '';
@@ -613,8 +976,8 @@
                 grid.innerHTML = `
                     <div class="col-span-full py-16 text-center text-stone-500">
                         <i class="fa-regular fa-folder-open text-4xl mb-3"></i>
-                        <p class="font-semibold text-lg">Buku tidak ditemukan</p>
-                        <p class="text-xs">Coba cari kata kunci lain atau pilih kategori berbeda.</p>
+                        <p class="font-semibold text-lg">${TRANSLATIONS[currentLang].search_not_found}</p>
+                        <p class="text-xs">${TRANSLATIONS[currentLang].search_not_found_desc}</p>
                     </div>
                 `;
                 return;
@@ -624,13 +987,10 @@
                 const isBookmarked = bookmarks.includes(book.id);
                 const card = document.createElement('div');
                 card.className = "bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group";
-                
-                // Fallback image handling
                 const coverImage = book.cover || `https://placehold.co/400x600/10b981/ffffff?text=${encodeURIComponent(book.title)}`;
 
                 card.innerHTML = `
                     <div>
-                        <!-- Image Container with category tag and save button -->
                         <div class="relative aspect-[4/5] bg-stone-100 overflow-hidden">
                             <img src="${coverImage}" alt="${book.title}" 
                                  onerror="this.src='https://placehold.co/400x600/047857/ffffff?text=${encodeURIComponent(book.title)}'"
@@ -642,27 +1002,22 @@
                                 <i class="${isBookmarked ? 'fa-solid text-amber-500' : 'fa-regular text-stone-400'} fa-bookmark"></i>
                             </button>
                         </div>
-                        
-                        <!-- Details Content -->
                         <div class="p-5">
                             <p class="text-xs text-stone-500 mb-1">${book.author}</p>
                             <h4 class="font-bold text-base text-stone-900 line-clamp-1 serif-title">${book.title}</h4>
                             <p class="text-xs text-stone-600 line-clamp-3 mt-2 leading-relaxed">${book.synopsis}</p>
                         </div>
                     </div>
-
-                    <!-- Actions -->
                     <div class="p-5 pt-0 border-t border-stone-100 mt-2 flex items-center justify-between">
-                        <span class="text-[10px] text-emerald-700 font-semibold"><i class="fa-solid fa-circle-check mr-1"></i>Digital Ready</span>
+                        <span class="text-[10px] text-emerald-700 font-semibold"><i class="fa-solid fa-circle-check mr-1"></i>${TRANSLATIONS[currentLang].action_ready}</span>
                         <button onclick="openReader('${book.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm">
-                            Baca Sekarang
+                            ${TRANSLATIONS[currentLang].action_read}
                         </button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
 
-            // Update Favorite Badge
             document.getElementById('fav-badge').textContent = bookmarks.length;
         }
 
@@ -673,7 +1028,7 @@
             const favBooks = books.filter(b => bookmarks.includes(b.id));
 
             if (favBooks.length === 0) {
-                container.innerHTML = `<p class="text-stone-400 text-sm italic col-span-full text-center py-4">Belum ada buku favorit yang ditambahkan.</p>`;
+                container.innerHTML = `<p class="text-stone-400 text-sm italic col-span-full text-center py-4">${TRANSLATIONS[currentLang].fav_empty}</p>`;
                 return;
             }
 
@@ -689,7 +1044,7 @@
                     <div class="flex-grow min-w-0">
                         <h4 class="text-xs font-bold text-white truncate">${book.title}</h4>
                         <p class="text-[10px] text-stone-400 truncate">${book.author}</p>
-                        <button onclick="openReader('${book.id}')" class="text-[10px] text-amber-300 font-semibold hover:underline mt-1 block">Buka Buku</button>
+                        <button onclick="openReader('${book.id}')" class="text-[10px] text-amber-300 font-semibold hover:underline mt-1 block">${TRANSLATIONS[currentLang].fav_item_open}</button>
                     </div>
                     <button onclick="toggleBookmark('${book.id}', event)" class="text-stone-400 hover:text-red-400 p-2">
                         <i class="fa-solid fa-trash-can text-sm"></i>
@@ -726,7 +1081,6 @@
             });
         }
 
-        // --- 4. BOOK READER STATE & ACTIONS ---
         let readerState = {
             currentBookId: null,
             currentChapterIndex: 0,
@@ -741,7 +1095,6 @@
             readerState.currentBookId = bookId;
             readerState.currentChapterIndex = 0;
 
-            // Load meta details
             document.getElementById('reader-meta-category').textContent = book.category.toUpperCase();
             document.getElementById('reader-title').textContent = book.title;
             document.getElementById('reader-author').textContent = book.author;
@@ -749,11 +1102,10 @@
             const coverImage = book.cover || `https://placehold.co/400x600/10b981/ffffff?text=${encodeURIComponent(book.title)}`;
             document.getElementById('reader-cover').src = coverImage;
 
-            // Render Chapters navigation left
             const chaptersContainer = document.getElementById('reader-chapters');
             chaptersContainer.innerHTML = '';
             book.chapters.forEach((chapter, index) => {
-                const chapTitle = chapter.split(' - ')[0] || `Bab ${index + 1}`;
+                const chapTitle = chapter.split(' - ')[0] || `Chapter ${index + 1}`;
                 const btn = document.createElement('button');
                 btn.className = `w-full text-left py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-between ${
                     index === 0 ? 'bg-emerald-800 text-white font-semibold' : 'hover:bg-stone-800 text-stone-400'
@@ -764,11 +1116,8 @@
                 chaptersContainer.appendChild(btn);
             });
 
-            // Display reading block section
             const readerSection = document.getElementById('reader-section');
             readerSection.classList.remove('hidden');
-            
-            // Scroll reader into view smoothly
             readerSection.scrollIntoView({ behavior: 'smooth' });
 
             updateChapterContent();
@@ -776,7 +1125,7 @@
 
         function closeReader() {
             document.getElementById('reader-section').classList.add('hidden');
-            showToast("Pembaca digital ditutup.", "success");
+            showToast(TRANSLATIONS[currentLang].reader_closed_toast, "success");
         }
 
         function updateChapterContent() {
@@ -786,17 +1135,15 @@
             const chapterText = book.chapters[readerState.currentChapterIndex];
             const contentBox = document.getElementById('reader-content-box');
             
-            // Format title and content nicely
             const parts = chapterText.split(' - ');
             const title = parts[0] || `Bab ${readerState.currentChapterIndex + 1}`;
-            const body = parts[1] || 'Teks kosong atau belum dimasukkan.';
+            const body = parts[1] || '---';
 
             contentBox.innerHTML = `
                 <h4 class="text-xl font-bold text-amber-300 mb-4 serif-title border-b border-stone-800 pb-2">${title}</h4>
                 <p class="leading-relaxed whitespace-pre-line text-sm md:text-base">${body}</p>
             `;
 
-            // Update left chapters active state styling
             book.chapters.forEach((_, idx) => {
                 const el = document.getElementById(`chap-btn-${idx}`);
                 if (el) {
@@ -808,16 +1155,15 @@
                 }
             });
 
-            // Update indicators and buttons status
-            document.getElementById('reader-progress-label').textContent = `Bab ${readerState.currentChapterIndex + 1} dari ${book.chapters.length}`;
+            const chapterWord = currentLang === 'id' ? 'Bab' : 'Chapter';
+            const ofWord = currentLang === 'id' ? 'dari' : 'of';
+            document.getElementById('reader-progress-label').textContent = `${chapterWord} ${readerState.currentChapterIndex + 1} ${ofWord} ${book.chapters.length}`;
             document.getElementById('btn-prev-chapter').disabled = readerState.currentChapterIndex === 0;
             document.getElementById('btn-next-chapter').disabled = readerState.currentChapterIndex === book.chapters.length - 1;
             
-            // Highlight disabled buttons state
             document.getElementById('btn-prev-chapter').style.opacity = readerState.currentChapterIndex === 0 ? '0.4' : '1';
             document.getElementById('btn-next-chapter').style.opacity = readerState.currentChapterIndex === book.chapters.length - 1 ? '0.4' : '1';
             
-            // Reset reading scroll back to top
             contentBox.scrollTop = 0;
         }
 
@@ -847,13 +1193,11 @@
             const icon = document.getElementById('reader-theme-icon');
             
             if (readerState.darkTheme) {
-                // Change to Light Theme
                 box.classList.remove('bg-stone-950', 'text-stone-300');
                 box.classList.add('bg-amber-50', 'text-stone-900');
                 icon.className = "fa-solid fa-sun text-amber-500";
                 readerState.darkTheme = false;
             } else {
-                // Change to Dark Theme
                 box.classList.remove('bg-amber-50', 'text-stone-900');
                 box.classList.add('bg-stone-950', 'text-stone-300');
                 icon.className = "fa-solid fa-moon";
@@ -861,16 +1205,15 @@
             }
         }
 
-        // --- 5. BOOKMARKS AND FILTERS ---
         function toggleBookmark(bookId, event) {
             event.stopPropagation();
             const index = bookmarks.indexOf(bookId);
             if (index > -1) {
                 bookmarks.splice(index, 1);
-                showToast("Buku dihapus dari bookmark.", "error");
+                showToast(TRANSLATIONS[currentLang].bookmark_removed, "error");
             } else {
                 bookmarks.push(bookId);
-                showToast("Buku ditambahkan ke bookmark!", "success");
+                showToast(TRANSLATIONS[currentLang].bookmark_added, "success");
             }
             localStorage.setItem('pj_bookmarks', JSON.stringify(bookmarks));
             renderBooks();
@@ -887,16 +1230,7 @@
 
         function filterCategory(category) {
             currentCategory = category;
-            
-            // Style Active State for categories
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                if (btn.textContent.includes(category) || (category === 'Semua' && btn.textContent.includes('Semua'))) {
-                    btn.className = "category-btn active px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-emerald-800 text-white shadow-sm transition-all";
-                } else {
-                    btn.className = "category-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-stone-100 hover:bg-stone-200 text-stone-700 transition-all";
-                }
-            });
-
+            renderCategoryBar();
             renderBooks();
         }
 
@@ -907,7 +1241,6 @@
             katalog.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- 6. FORM DONATE BOOK & REVIEW SYSTEM ---
         function handleDonateBook(e) {
             e.preventDefault();
             const title = document.getElementById('don-title').value;
@@ -917,9 +1250,11 @@
             const synopsis = document.getElementById('don-synopsis').value;
             const rawContent = document.getElementById('don-content').value;
 
-            // Split chapters by line if double newline or just make single bab
+            const chapterTitleFormat = currentLang === 'id' ? 'Bab' : 'Chapter';
+            const subTitleFormat = currentLang === 'id' ? 'Bagian' : 'Section';
+
             const chapters = rawContent.split('\n\n').map((para, index) => {
-                return `Bab ${index + 1}: Bagian ${index + 1} - ${para.trim()}`;
+                return `${chapterTitleFormat} ${index + 1}: ${subTitleFormat} ${index + 1} - ${para.trim()}`;
             });
 
             const newBook = {
@@ -929,19 +1264,16 @@
                 category,
                 cover,
                 synopsis,
-                chapters: chapters.length > 0 ? chapters : [`Bab I: Utama - ${rawContent}`]
+                chapters: chapters.length > 0 ? chapters : [`${chapterTitleFormat} I: Core - ${rawContent}`]
             };
 
             books.unshift(newBook);
-            localStorage.setItem('pj_books', JSON.stringify(books));
+            localStorage.setItem(`pj_books_${currentLang}`, JSON.stringify(books));
             
-            // Reset form
             document.getElementById('form-donate-book').reset();
-            
-            showToast(`Buku "${title}" berhasil didaftarkan di katalog!`, "success");
+            showToast(`${title} - ${TRANSLATIONS[currentLang].donate_success_toast}`, "success");
             renderBooks();
 
-            // Scroll to catalog to see it live!
             document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -954,20 +1286,19 @@
 
             const newReview = { name, status, rating, text };
             reviews.unshift(newReview);
-            localStorage.setItem('pj_reviews', JSON.stringify(reviews));
+            localStorage.setItem(`pj_reviews_${currentLang}`, JSON.stringify(reviews));
 
             document.getElementById('form-review').reset();
-            showToast("Ulasan Anda berhasil diterbitkan pada feed pembaca!", "success");
+            showToast(TRANSLATIONS[currentLang].reviews_success_toast, "success");
             renderReviews();
         }
 
-        // --- 7. FOCUS TIMER (POMODORO) ---
         let timer = {
             interval: null,
             minutes: 25,
             seconds: 0,
             isRunning: false,
-            mode: 'focus' // focus or break
+            mode: 'focus'
         };
 
         function startTimer() {
@@ -976,12 +1307,13 @@
             timer.isRunning = true;
             document.getElementById('btn-timer-start').classList.add('hidden');
             document.getElementById('btn-timer-pause').classList.remove('hidden');
-            document.getElementById('timer-status').textContent = timer.mode === 'focus' ? "Sesi Fokus Membaca" : "Istirahat Sejenak";
+            
+            const labelKey = timer.mode === 'focus' ? "timer_status_focus" : "timer_status_break";
+            document.getElementById('timer-status').textContent = TRANSLATIONS[currentLang][labelKey];
 
             timer.interval = setInterval(() => {
                 if (timer.seconds === 0) {
                     if (timer.minutes === 0) {
-                        // Timer completed
                         clearInterval(timer.interval);
                         timer.isRunning = false;
                         handleTimerCompletion();
@@ -1001,7 +1333,7 @@
             timer.isRunning = false;
             document.getElementById('btn-timer-start').classList.remove('hidden');
             document.getElementById('btn-timer-pause').classList.add('hidden');
-            document.getElementById('timer-status').textContent = "Jeda Sementara";
+            document.getElementById('timer-status').textContent = TRANSLATIONS[currentLang].timer_status_paused;
         }
 
         function resetTimer() {
@@ -1013,17 +1345,17 @@
             
             document.getElementById('btn-timer-start').classList.remove('hidden');
             document.getElementById('btn-timer-pause').classList.add('hidden');
-            document.getElementById('timer-status').textContent = "Sedang Bersiap";
+            document.getElementById('timer-status').textContent = TRANSLATIONS[currentLang].timer_status_idle;
             updateTimerDisplay();
         }
 
         function handleTimerCompletion() {
             if (timer.mode === 'focus') {
-                showToast("Sesi fokus selesai! Istirahatkan mata Anda selama 5 menit.", "success");
+                showToast(TRANSLATIONS[currentLang].timer_toast_focus_done, "success");
                 timer.mode = 'break';
                 timer.minutes = 5;
             } else {
-                showToast("Waktu istirahat selesai! Kembali fokus membaca.", "success");
+                showToast(TRANSLATIONS[currentLang].timer_toast_break_done, "success");
                 timer.mode = 'focus';
                 timer.minutes = 25;
             }
@@ -1038,8 +1370,6 @@
             document.getElementById('timer-display').textContent = `${minStr}:${secStr}`;
         }
 
-        // --- 8. WEB AUDIO SYNTHESIZER (AMBIENT GENERATOR) ---
-        // Generates atmospheric music natively using low frequency sine oscs & white/pink noise simulation
         let audioCtx = null;
         let activeSynths = {
             rain: null,
@@ -1055,32 +1385,31 @@
 
         function toggleAmbient(type) {
             initAudio();
-            
             const btn = document.getElementById(`btn-ambient-${type}`);
             
             if (activeSynths[type]) {
-                // Currently playing, let's stop it
                 stopSynth(type);
                 btn.innerHTML = '<i class="fa-solid fa-play"></i>';
                 btn.className = "bg-emerald-800 hover:bg-emerald-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all shadow";
-                showToast(`Suara ${type} dihentikan.`, "error");
+                
+                const typeLabel = TRANSLATIONS[currentLang][`ambient_${type}_title`];
+                showToast(`${typeLabel} ${TRANSLATIONS[currentLang].ambient_stopped}.`, "error");
             } else {
-                // Off, let's play it
                 startSynth(type);
                 btn.innerHTML = '<i class="fa-solid fa-square text-amber-300"></i>';
                 btn.className = "bg-amber-400 text-stone-900 w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-inner animate-pulse";
-                showToast(`Suara ambient ${type} diaktifkan!`, "success");
+                
+                const typeLabel = TRANSLATIONS[currentLang][`ambient_${type}_title`];
+                showToast(`${typeLabel} ${TRANSLATIONS[currentLang].ambient_activated}!`, "success");
             }
         }
 
         function startSynth(type) {
             if (type === 'rain') {
-                // Synthesizing rain-like sound using synthesized noise and low-pass filters
                 const bufferSize = 2 * audioCtx.sampleRate;
                 const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
                 const output = noiseBuffer.getChannelData(0);
                 
-                // Populate noise buffer with pseudo-pink noise
                 let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
                 for (let i = 0; i < bufferSize; i++) {
                     let white = Math.random() * 2 - 1;
@@ -1091,7 +1420,7 @@
                     b4 = 0.55000 * b4 + white * 0.5329522;
                     b5 = -0.7616 * b5 - white * 0.0168980;
                     output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-                    output[i] *= 0.11; // rescale for soft level
+                    output[i] *= 0.11;
                     b6 = white * 0.115926;
                 }
 
@@ -1099,7 +1428,6 @@
                 whiteNoiseNode.buffer = noiseBuffer;
                 whiteNoiseNode.loop = true;
 
-                // Create a low-pass filter to make the sound heavy/muffled like outside rain
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = 'lowpass';
                 filter.frequency.setValueAtTime(450, audioCtx.currentTime);
@@ -1110,22 +1438,15 @@
                 whiteNoiseNode.connect(filter);
                 filter.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
-
                 whiteNoiseNode.start(0);
 
-                activeSynths.rain = {
-                    source: whiteNoiseNode,
-                    gain: gainNode
-                };
+                activeSynths.rain = { source: whiteNoiseNode, gain: gainNode };
             }
 
             else if (type === 'cafe') {
-                // Creating low, warm sine waves and sweeping filter pulses for cozy library/cafe music chord vibes
                 const oscs = [];
                 const gain = audioCtx.createGain();
                 gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-
-                // G-Major warm 7th triad tones for relaxing resonance
                 const baseFrequencies = [98, 146.83, 196, 246.94]; 
                 
                 baseFrequencies.forEach((freq, idx) => {
@@ -1135,8 +1456,6 @@
 
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-                    // LFO to slowly pulse the volume of individual notes
                     lfo.frequency.setValueAtTime(0.1 + (idx * 0.05), audioCtx.currentTime);
                     lfoGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
 
@@ -1150,48 +1469,34 @@
 
                     osc.start(0);
                     lfo.start(0);
-
                     oscs.push({ osc, lfo });
                 });
 
                 gain.connect(audioCtx.destination);
-
-                activeSynths.cafe = {
-                    oscs: oscs,
-                    gain: gain
-                };
+                activeSynths.cafe = { oscs: oscs, gain: gain };
             }
 
             else if (type === 'forest') {
-                // High crystalline synth chime triggers imitating distant glass chimes on wind
                 const chimeTimer = setInterval(() => {
                     if (!audioCtx) return;
-                    
                     const now = audioCtx.currentTime;
-                    const freq = 600 + Math.random() * 800; // Random high note
-
+                    const freq = 600 + Math.random() * 800;
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
 
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(freq, now);
-
-                    // Quick attack, long slow natural release envelope
                     gain.gain.setValueAtTime(0, now);
                     gain.gain.linearRampToValueAtTime(0.06, now + 0.08);
                     gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.0);
 
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-
                     osc.start(now);
                     osc.stop(now + 3.2);
+                }, 2500);
 
-                }, 2500); // sound chime every 2.5 seconds
-
-                activeSynths.forest = {
-                    timer: chimeTimer
-                };
+                activeSynths.forest = { timer: chimeTimer };
             }
         }
 
@@ -1211,18 +1516,24 @@
             } else if (type === 'forest') {
                 clearInterval(synth.timer);
             }
-
             activeSynths[type] = null;
         }
 
-        // --- 9. WINDOW LOAD & RUN ---
         window.onload = function() {
             initStorage();
+            
+            // Set up UI translations first
+            document.getElementById('current-lang-label').textContent = currentLang.toUpperCase();
+            translatePage();
+            renderCategoryBar();
+            
+            // Render books, bookmarks and reviews dynamically
             renderBooks();
             renderFavorites();
             renderReviews();
             
-            // Add global search enter handler
+            // Add global search enter key handler
+            document.getElementById('global-search').placeholder = TRANSLATIONS[currentLang].search_placeholder;
             document.getElementById('global-search').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     handleSearch();

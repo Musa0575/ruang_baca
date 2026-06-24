@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -284,15 +284,28 @@
                     Selamat datang di PojokBaca. Platform perpustakaan digital mandiri yang menggabungkan kemudahan membaca buku digital dengan ketenangan suasana belajar.
                 </p>
 
-                <!-- Search Bar -->
-                <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex items-center space-x-2">
-                    <div class="flex-grow flex items-center pl-3">
-                        <i class="fa-solid fa-magnifying-glass text-stone-300 mr-2"></i>
-                        <input id="global-search" type="text" placeholder="Cari judul buku, penulis..." class="bg-transparent text-white placeholder-stone-400 focus:outline-none w-full text-sm py-2">
+                <!-- Search Bar with Smart AI Checkbox -->
+                <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-2xl">
+                    <div class="flex items-center space-x-2">
+                        <div class="flex-grow flex items-center pl-3">
+                            <i class="fa-solid fa-magnifying-glass text-stone-300 mr-2"></i>
+                            <input id="global-search" type="text" placeholder="Cari judul buku, penulis..." class="bg-transparent text-white placeholder-stone-400 focus:outline-none w-full text-sm py-2">
+                        </div>
+                        <button onclick="handleSearch()" class="btn-accent-custom px-6 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg flex items-center space-x-2">
+                            <span data-i18n="search_btn_text">Cari</span>
+                        </button>
                     </div>
-                    <button onclick="handleSearch()" class="btn-accent-custom px-6 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg flex items-center space-x-2">
-                        <span data-i18n="search_btn_text">Cari</span>
-                    </button>
+                    
+                    <!-- AI Smart Search Toggle -->
+                    <div class="flex items-center justify-start mt-2 px-3 border-t border-white/10 pt-2">
+                        <label class="flex items-center space-x-2 text-xs text-stone-200 select-none cursor-pointer">
+                            <input type="checkbox" id="ai-search-toggle" class="rounded text-amber-500 focus:ring-amber-500 bg-stone-900 border-stone-700 w-4 h-4">
+                            <span class="flex items-center font-semibold">
+                                <i class="fa-solid fa-wand-magic-sparkles text-cyan-300 mr-1.5 animate-pulse"></i> 
+                                <span data-i18n="ai_search_toggle">Pencarian Cerdas AI + Google Search</span>
+                            </span>
+                        </label>
+                    </div>
                 </div>
                 
                 <!-- Filter Badges Quick Access -->
@@ -339,7 +352,7 @@
         </section>
 
         <section id="reader-section" class="hidden bg-stone-950 text-stone-200 py-12 px-4 transition-all duration-500 border-t border-b border-stone-800">
-            <div class="max-w-5xl mx-auto">
+            <div class="max-w-6xl mx-auto">
                 <div class="flex items-center justify-between border-b border-stone-850 pb-4 mb-6">
                     <div class="flex items-center space-x-3">
                         <button onclick="closeReader()" class="bg-stone-800 hover:bg-stone-700 text-stone-300 p-2.5 rounded-xl transition-all">
@@ -362,25 +375,72 @@
 
                 <!-- Main Reading Interface -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Left: Metadata and Navigation -->
-                    <div class="lg:col-span-4 bg-stone-900/50 p-6 rounded-2xl border border-stone-800/80 space-y-4">
-                        <div class="aspect-[3/4] max-w-[150px] mx-auto bg-stone-800 rounded-xl overflow-hidden shadow-lg border border-stone-750">
-                            <img id="reader-cover" src="" alt="Cover Buku" class="w-full h-full object-cover">
-                        </div>
-                        <div class="text-center">
-                            <p class="font-bold text-base text-amber-200" id="reader-author">Author</p>
-                            <p class="text-xs text-stone-400" data-i18n="reader_publisher">Penerbit: PojokBaca Digital</p>
-                        </div>
-                        <hr class="border-stone-800">
+                    <!-- Left Sidebar (Metadata, Chapters & AI Companion Tab System) -->
+                    <div class="lg:col-span-4 bg-stone-900/50 p-6 rounded-2xl border border-stone-800/80 flex flex-col justify-between space-y-4">
                         <div>
-                            <p class="text-xs font-semibold text-stone-300 uppercase mb-2" data-i18n="reader_index">Daftar Isi Bab</p>
-                            <div class="space-y-1 text-sm text-stone-450" id="reader-chapters">
-                                <!-- Dynamic Chapters generated -->
+                            <!-- Tabs Selector inside Reader -->
+                            <div class="flex border-b border-stone-800 mb-4">
+                                <button onclick="switchReaderTab('chapters')" id="rtab-chapters" class="flex-1 pb-3 text-xs font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all">
+                                    <i class="fa-solid fa-list mr-1"></i> <span data-i18n="reader_index">Daftar Isi</span>
+                                </button>
+                                <button onclick="switchReaderTab('ai')" id="rtab-ai" class="flex-1 pb-3 text-xs font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-200 transition-all">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400 mr-1 animate-pulse"></i> <span data-i18n="ai_assistant_tab">Asisten AI</span>
+                                </button>
+                            </div>
+
+                            <!-- Tab Content: Chapters -->
+                            <div id="reader-chapters-container" class="space-y-4">
+                                <div class="aspect-[3/4] max-w-[120px] mx-auto bg-stone-800 rounded-xl overflow-hidden shadow-lg border border-stone-750">
+                                    <img id="reader-cover" src="" alt="Cover Buku" class="w-full h-full object-cover">
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-bold text-sm text-amber-200" id="reader-author">Author</p>
+                                    <p class="text-[10px] text-stone-400" data-i18n="reader_publisher">Penerbit: PojokBaca Digital</p>
+                                </div>
+                                <hr class="border-stone-800">
+                                <div>
+                                    <p class="text-[11px] font-semibold text-stone-300 uppercase mb-2" data-i18n="reader_index">Daftar Isi Bab</p>
+                                    <div class="space-y-1 text-sm text-stone-450" id="reader-chapters">
+                                        <!-- Dynamic Chapters generated -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab Content: AI Tutor Chat Room -->
+                            <div id="reader-ai-container" class="hidden flex flex-col h-[400px]">
+                                <div class="bg-stone-950 rounded-xl p-3 border border-stone-800 flex-grow overflow-y-auto space-y-3 text-xs mb-3 flex flex-col justify-between" id="ai-chat-history">
+                                    <!-- Messages dynamically loaded -->
+                                    <div class="text-stone-400 italic text-center py-4" id="ai-chat-placeholder">
+                                        <i class="fa-solid fa-circle-question text-lg text-amber-400 mb-1 block"></i>
+                                        <span data-i18n="ai_assistant_welcome">Halo! Saya asisten membacamu. Tanyakan apa saja tentang bab ini atau klik tombol pintasan di bawah.</span>
+                                    </div>
+                                </div>
+
+                                <!-- AI Quick Helper Suggestions -->
+                                <div class="grid grid-cols-3 gap-1 mb-2">
+                                    <button onclick="askAIAssistant('summary')" class="bg-stone-800 hover:bg-stone-700 text-[10px] text-stone-200 py-1.5 px-1 rounded font-medium flex items-center justify-center space-x-1" title="Summary">
+                                        <span data-i18n="ai_assistant_summary">📝 Ringkas</span>
+                                    </button>
+                                    <button onclick="askAIAssistant('quiz')" class="bg-stone-800 hover:bg-stone-700 text-[10px] text-stone-200 py-1.5 px-1 rounded font-medium flex items-center justify-center space-x-1" title="Quiz">
+                                        <span data-i18n="ai_assistant_quiz">🎯 Kuis</span>
+                                    </button>
+                                    <button onclick="askAIAssistant('vocab')" class="bg-stone-800 hover:bg-stone-700 text-[10px] text-stone-200 py-1.5 px-1 rounded font-medium flex items-center justify-center space-x-1" title="Difficult terms">
+                                        <span data-i18n="ai_assistant_vocab">🔑 Istilah</span>
+                                    </button>
+                                </div>
+
+                                <!-- Chat Input -->
+                                <div class="flex items-center space-x-1">
+                                    <input type="text" id="ai-chat-input" placeholder="Tanyakan tentang bab ini..." data-i18n-placeholder="ai_assistant_placeholder" class="flex-grow bg-stone-900 border border-stone-850 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                                    <button onclick="askAIAssistant()" class="bg-amber-500 hover:bg-amber-600 text-stone-950 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: Content Container -->
+                    <!-- Right Column: Content Box -->
                     <div class="lg:col-span-8 flex flex-col justify-between bg-stone-950 p-6 md:p-10 rounded-2xl border border-stone-900 shadow-inner">
                         <div id="reader-content-box" class="prose max-w-none text-stone-300 leading-relaxed overflow-y-auto max-h-[450px] pr-2" style="font-size: 16px;">
                             <!-- Book content dynamically generated -->
@@ -524,13 +584,21 @@
                     </div>
                 </div>
 
-                <!-- Form Right -->
-                <div class="lg:col-span-7 card-custom p-6 sm:p-10 rounded-3xl border shadow-xl">
-                    <h3 class="text-xl font-bold mb-6 flex items-center space-x-2">
-                        <i class="fa-solid fa-feather-pointed text-emerald-600"></i>
-                        <span data-i18n="donate_form_header">Formulir Tambah Buku Digital Baru</span>
-                    </h3>
+                <!-- Form Right with Tabs -->
+                <div class="lg:col-span-7 card-custom p-6 sm:p-10 rounded-3xl border shadow-xl relative overflow-hidden">
+                    <!-- Tab Selector -->
+                    <div class="flex border-b border-stone-200/30 mb-6">
+                        <button onclick="switchDonateTab('manual')" id="tab-manual" class="flex-1 pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-650 transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                            <span data-i18n="tab_manual_title">Formulir Manual</span>
+                        </button>
+                        <button onclick="switchDonateTab('ai')" id="tab-ai" class="flex-1 pb-3 text-sm font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-600 transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-500 animate-pulse"></i>
+                            <span data-i18n="tab_ai_title">Generator Buku AI (Instan)</span>
+                        </button>
+                    </div>
 
+                    <!-- Manual Form -->
                     <form id="form-donate-book" onsubmit="handleDonateBook(event)" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
@@ -565,14 +633,69 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold opacity-80 mb-1" data-i18n="donate_label_content">Konten / Isi Bab Digital (Tulis isi buku di sini!) *</label>
-                            <textarea required id="don-content" placeholder="Tulis isi buku atau konten bab yang ingin dibaca langsung..." rows="5" class="w-full text-sm border card-custom rounded-xl px-4 py-2.5 font-mono focus:outline-none focus:border-emerald-600 text-slate-800"></textarea>
+                            <label class="block text-xs font-semibold opacity-80 mb-1" data-i18n="donate_label_content">Konten / Isi Bab Digital *</label>
+                            <textarea required id="don-content" placeholder="Tulis konten bab atau ringkasan materi secara detail..." rows="5" class="w-full text-sm border card-custom rounded-xl px-4 py-2.5 font-mono focus:outline-none focus:border-emerald-600 text-slate-800"></textarea>
                         </div>
 
                         <button type="submit" class="w-full accent-bg-custom font-bold py-3 px-6 rounded-xl transition-all shadow-md flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-cloud-arrow-up"></i>
                             <span data-i18n="donate_btn_submit">Daftarkan Buku ke Rak Digital</span>
                         </button>
+                    </form>
+
+                    <!-- AI Book Generator Form -->
+                    <form id="form-ai-book" onsubmit="handleAIBookGenerate(event)" class="hidden space-y-5">
+                        <div class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl text-xs space-y-2">
+                            <p class="font-bold text-amber-650 flex items-center">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i>
+                                <span data-i18n="ai_form_tip_title">Bagaimana AI Membuat Buku Anda?</span>
+                            </p>
+                            <p class="opacity-90 leading-relaxed" data-i18n="ai_form_tip_desc">
+                                Masukkan topik spesifik atau ide kasar yang ingin Anda bahas. AI akan membuatkan sebuah buku saku berisi judul, sinopsis, nama penulis fiktif, serta 3 bab tulisan edukatif atau naratif berkualitas tinggi.
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold opacity-80 mb-1.5" data-i18n="ai_label_prompt">Topik atau Ide Utama Buku *</label>
+                            <input required id="ai-prompt" type="text" placeholder="Contoh: Petualangan Kucing Astronot di Mars atau Sejarah singkat kerajaan Majapahit" class="w-full text-sm border card-custom rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-600 text-slate-800">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold opacity-80 mb-1" data-i18n="donate_label_category">Kategori Buku *</label>
+                                <select required id="ai-category" class="w-full text-sm border card-custom rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600 bg-white text-slate-800">
+                                    <option value="Fiksi">Fiksi & Novel</option>
+                                    <option value="Sains">Sains & Edukasi</option>
+                                    <option value="Pengembangan Diri">Pengembangan Diri</option>
+                                    <option value="Sejarah">Sejarah & Filosofi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold opacity-80 mb-1" data-i18n="ai_label_style">Gaya Bahasa Penulisan *</label>
+                                <select required id="ai-style" class="w-full text-sm border card-custom rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-600 bg-white text-slate-800">
+                                    <option value="Santai, Edukatif & Inspiratif" data-i18n="ai_style_casual">Santai, Edukatif & Inspiratif</option>
+                                    <option value="Formal, Akademis & Informatif" data-i18n="ai_style_formal">Formal, Akademis & Informatif</option>
+                                    <option value="Dramatis & Sastra Deskriptif" data-i18n="ai_style_drama">Dramatis & Sastra Deskriptif</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-ai-generate" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-600 hover:to-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i>
+                            <span data-i18n="ai_btn_submit">Buat Buku dengan AI Sekarang</span>
+                        </button>
+
+                        <!-- Generating Loading Spinner -->
+                        <div id="ai-generating-loader" class="hidden flex flex-col items-center justify-center py-6 space-y-3">
+                            <div class="relative w-12 h-12">
+                                <div class="absolute inset-0 rounded-full border-4 border-stone-200 border-t-emerald-600 animate-spin"></div>
+                                <div class="absolute inset-2 rounded-full border-4 border-stone-200 border-b-amber-500 animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-emerald-600 animate-pulse" id="ai-loader-text" data-i18n="ai_loader_step1">AI sedang menganalisis topik Anda...</p>
+                                <p class="text-[10px] text-stone-500 mt-1" data-i18n="ai_loader_sub">Proses ini memakan waktu sekitar 10-20 detik.</p>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -614,8 +737,9 @@
                                 <label class="block text-xs font-semibold opacity-80 mb-1" data-i18n="reviews_form_msg">Pesan Ulasan *</label>
                                 <textarea required id="rev-text" placeholder="Tulis pengalaman Anda membaca di PojokBaca..." rows="3" class="w-full text-xs border card-custom rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600 text-slate-800"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-850 text-white font-bold py-2 px-4 rounded-lg text-xs transition-all shadow" data-i18n="reviews_form_submit">
-                                Kirim Ulasan
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-850 text-white font-bold py-2 px-4 rounded-lg text-xs transition-all shadow-md flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span data-i18n="reviews_form_submit">Kirim Ulasan</span>
                             </button>
                         </form>
                     </div>
@@ -745,7 +869,7 @@
                 donate_label_category: "Kategori Buku *",
                 donate_label_cover: "Link URL Foto Sampul (Opsional)",
                 donate_label_synopsis: "Deskripsi / Sinopsis Pendek *",
-                donate_label_content: "Konten / Isi Bab Digital (Tulis isi buku di sini!) *",
+                donate_label_content: "Konten / Isi Bab Digital *",
                 donate_btn_submit: "Daftarkan Buku ke Rak Digital",
                 donate_success_toast: "Buku berhasil didaftarkan di katalog!",
                 reviews_badge: "💬 Suara Pembaca",
@@ -776,7 +900,34 @@
                 theme_midnight: "Midnight",
                 theme_nordic: "Nordic Clean",
                 theme_sakura: "Sakura Spring",
-                theme_switched: "Tema visual berhasil diubah ke"
+                theme_switched: "Tema visual berhasil diubah ke",
+                tab_manual_title: "Formulir Manual",
+                tab_ai_title: "Generator Buku AI (Instan)",
+                ai_form_tip_title: "Bagaimana AI Membuat Buku Anda?",
+                ai_form_tip_desc: "Masukkan topik spesifik atau ide kasar yang ingin Anda bahas. AI akan membuatkan sebuah buku saku berisi judul, sinopsis, nama penulis fiktif, serta 3 bab tulisan edukatif atau naratif berkualitas tinggi.",
+                ai_label_prompt: "Topik atau Ide Utama Buku *",
+                ai_label_style: "Gaya Bahasa Penulisan *",
+                ai_style_casual: "Santai, Edukatif & Inspiratif",
+                ai_style_formal: "Formal, Akademis & Informatif",
+                ai_style_drama: "Dramatis & Sastra Deskriptif",
+                ai_btn_submit: "Buat Buku dengan AI Sekarang",
+                ai_loader_step1: "AI sedang menganalisis topik Anda...",
+                ai_loader_step2: "Menyusun struktur bab buku...",
+                ai_loader_step3: "Menulis konten detail bab...",
+                ai_loader_step4: "Memoles bahasa dan menerbitkan...",
+                ai_loader_sub: "Proses ini memakan waktu sekitar 10-20 detik.",
+                ai_err_toast: "Gagal memproses pembuatan buku AI. Silakan coba sesaat lagi.",
+                ai_success_toast: "Buku baru hasil kecerdasan buatan sukses diterbitkan!",
+                ai_assistant_tab: "Asisten AI",
+                ai_assistant_welcome: "Halo! Saya asisten membacamu. Tanyakan apa saja tentang bab ini atau klik tombol pintasan di bawah.",
+                ai_assistant_placeholder: "Ketik pertanyaan Anda...",
+                ai_assistant_btn: "Tanya AI",
+                ai_assistant_summary: "📝 Ringkasan Bab",
+                ai_assistant_quiz: "🎯 Kuis Singkat",
+                ai_assistant_vocab: "🔑 Istilah Sulit",
+                ai_search_toggle: "Pencarian Cerdas AI + Google Search",
+                ai_search_tip: "Mencari topik di Google & menulis buku instan...",
+                ai_search_empty: "Pencarian AI tidak mengembalikan hasil. Coba topik lain."
             },
             en: {
                 nav_subtitle: "Digital Library",
@@ -847,7 +998,7 @@
                 donate_label_category: "Book Category *",
                 donate_label_cover: "Cover Image URL Link (Optional)",
                 donate_label_synopsis: "Short Synopsis / Description *",
-                donate_label_content: "Digital Content (Write your chapters here!) *",
+                donate_label_content: "Digital Content *",
                 donate_btn_submit: "Register Book to Digital Shelf",
                 donate_success_toast: "Book registered successfully in the catalog!",
                 reviews_badge: "💬 Voice of Readers",
@@ -878,7 +1029,34 @@
                 theme_midnight: "Midnight",
                 theme_nordic: "Nordic Clean",
                 theme_sakura: "Sakura Spring",
-                theme_switched: "Visual theme switched to"
+                theme_switched: "Visual theme switched to",
+                tab_manual_title: "Manual Form",
+                tab_ai_title: "AI Book Generator (Instant)",
+                ai_form_tip_title: "How does the AI create your book?",
+                ai_form_tip_desc: "Input a specific topic or rough idea. The AI will instantly compile a pocket digital book with a title, synopsis, pseudonym author name, and 3 full chapters of educational or narrative reading material.",
+                ai_label_prompt: "Book Topic or Core Idea *",
+                ai_label_style: "Writing Language Style *",
+                ai_style_casual: "Casual, Inspiring & Educational",
+                ai_style_formal: "Formal, Academic & Informative",
+                ai_style_drama: "Dramatic & Literary Descriptive",
+                ai_btn_submit: "Generate Book with AI Now",
+                ai_loader_step1: "AI is analyzing your topic...",
+                ai_loader_step2: "Structuring the book chapters...",
+                ai_loader_step3: "Writing detailed chapter contents...",
+                ai_loader_step4: "Polishing style and publishing...",
+                ai_loader_sub: "This process takes about 10-20 seconds.",
+                ai_err_toast: "Failed to generate book with AI. Please try again.",
+                ai_success_toast: "New AI-generated digital book successfully published!",
+                ai_assistant_tab: "AI Assistant",
+                ai_assistant_welcome: "Hello! I am your reading companion. Ask me anything about this chapter or click the shortcut buttons below.",
+                ai_assistant_placeholder: "Type your question...",
+                ai_assistant_btn: "Ask AI",
+                ai_assistant_summary: "📝 Summarize",
+                ai_assistant_quiz: "🎯 Quick Quiz",
+                ai_assistant_vocab: "🔑 Key Terms",
+                ai_search_toggle: "Smart AI + Google Search Discovery",
+                ai_search_tip: "Searching Google and compiling instant book...",
+                ai_search_empty: "AI Search returned no results. Try another topic."
             }
         };
 
@@ -995,14 +1173,14 @@
 
         const BILINGUAL_REVIEWS = {
             id: [
-                { name: "Rizky Ramadhan", status: "Guru SMP", rating: 5, text: "Platform yang luar biasa nyaman digunakan! Suara gemuruh hujan membuat saya tahan membaca novel fiksi berjam-jam tanpa tergoda membuka media sosial." },
-                { name: "Siti Humairah", status: "Pelajar SMA", rating: 5, text: "Fasilitas donasi bukunya keren sekali. Saya baru mencoba upload esai buatan saya, dan seketika langsung bisa dibaca di katalog. Menambah motivasi menulis!" },
-                { name: "Andi Wijaya", status: "Pecinta Buku", rating: 4, text: "Sistem e-readernya responsif di HP saya. Sangat jarang ada perpustakaan digital lokal dengan user interface sebersih ini." }
+                { name: "Rizky Ramadhan", status: "Guru SMP", rating: 5, sentiment: "Inspiratif", text: "Platform yang luar biasa nyaman digunakan! Suara gemuruh hujan membuat saya tahan membaca novel fiksi berjam-jam tanpa tergoda membuka media sosial." },
+                { name: "Siti Humairah", status: "Pelajar SMA", rating: 5, sentiment: "Sangat Positif", text: "Fasilitas donasi bukunya keren sekali. Saya baru mencoba upload esai buatan saya, dan seketika langsung bisa dibaca di katalog. Menambah motivasi menulis!" },
+                { name: "Andi Wijaya", status: "Pecinta Buku", rating: 4, sentiment: "Membangun", text: "Sistem e-readernya responsif di HP saya. Sangat jarang ada perpustakaan digital lokal dengan user interface sebersih ini." }
             ],
             en: [
-                { name: "Marcus Miller", status: "Teacher", rating: 5, text: "An exceptionally comfortable reading experience! The thunderstorm synthesis keeps me focused on novels for hours without distraction." },
-                { name: "Sophia Watson", status: "High School Student", rating: 5, text: "The upload feature is fantastic. I contributed my draft essay, and it instantly appeared on the shelves. Tremendously motivating!" },
-                { name: "David K.", status: "Book Collector", rating: 4, text: "The e-reader is fully responsive on mobile screens. Extremely neat interface compared to old rigid digital libraries." }
+                { name: "Marcus Miller", status: "Teacher", rating: 5, sentiment: "Inspiring", text: "An exceptionally comfortable reading experience! The thunderstorm synthesis keeps me focused on novels for hours without distraction." },
+                { name: "Sophia Watson", status: "High School Student", rating: 5, sentiment: "Very Positive", text: "The upload feature is fantastic. I contributed my draft essay, and it instantly appeared on the shelves. Tremendously motivating!" },
+                { name: "David K.", status: "Book Collector", rating: 4, sentiment: "Constructive", text: "The e-reader is fully responsive on mobile screens. Extremely neat interface compared to old rigid digital libraries." }
             ]
         };
 
@@ -1015,7 +1193,6 @@
         let searchQuery = '';
 
         function initStorage() {
-            // Retrieve language preference
             const savedLang = localStorage.getItem('pj_lang');
             if (savedLang) {
                 currentLang = savedLang;
@@ -1023,7 +1200,6 @@
                 localStorage.setItem('pj_lang', currentLang);
             }
 
-            // Retrieve visual theme preference
             const savedTheme = localStorage.getItem('pj_theme');
             if (savedTheme) {
                 currentTheme = savedTheme;
@@ -1031,21 +1207,18 @@
                 localStorage.setItem('pj_theme', currentTheme);
             }
 
-            // Load localized books
             const savedBooks = localStorage.getItem(`pj_books_${currentLang}`);
             if (!savedBooks) {
                 localStorage.setItem(`pj_books_${currentLang}`, JSON.stringify(BILINGUAL_BOOKS[currentLang]));
             }
             books = JSON.parse(localStorage.getItem(`pj_books_${currentLang}`));
 
-            // Load localized reviews
             const savedReviews = localStorage.getItem(`pj_reviews_${currentLang}`);
             if (!savedReviews) {
                 localStorage.setItem(`pj_reviews_${currentLang}`, JSON.stringify(BILINGUAL_REVIEWS[currentLang]));
             }
             reviews = JSON.parse(localStorage.getItem(`pj_reviews_${currentLang}`));
 
-            // Load bookmarks
             const savedBookmarks = localStorage.getItem('pj_bookmarks');
             if (!savedBookmarks) {
                 localStorage.setItem('pj_bookmarks', JSON.stringify([]));
@@ -1091,7 +1264,6 @@
             dropdown.classList.toggle('hidden');
         }
 
-        // Close dropdowns when clicking outside
         window.addEventListener('click', () => {
             document.getElementById('lang-dropdown').classList.add('hidden');
             document.getElementById('theme-dropdown').classList.add('hidden');
@@ -1119,7 +1291,6 @@
             localStorage.setItem('pj_lang', lang);
             document.getElementById('current-lang-label').textContent = lang.toUpperCase();
             
-            // Reload storage dataset to swap language database
             const savedBooks = localStorage.getItem(`pj_books_${lang}`);
             if (!savedBooks) {
                 localStorage.setItem(`pj_books_${lang}`, JSON.stringify(BILINGUAL_BOOKS[lang]));
@@ -1132,17 +1303,13 @@
             }
             reviews = JSON.parse(localStorage.getItem(`pj_reviews_${lang}`));
 
-            // Trigger complete page translation translation
             translatePage();
             renderCategoryBar();
             renderBooks();
             renderFavorites();
             renderReviews();
             
-            // Adjust form placeholders
             document.getElementById('global-search').placeholder = TRANSLATIONS[currentLang].search_placeholder;
-            
-            // If reader is open, close it to avoid inconsistent language reading state
             document.getElementById('reader-section').classList.add('hidden');
         }
 
@@ -1155,7 +1322,14 @@
                 }
             });
 
-            // Handle special HTML nodes
+            const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+            placeholders.forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) {
+                    element.placeholder = TRANSLATIONS[currentLang][key];
+                }
+            });
+
             const heroTitle = document.getElementById('hero-title');
             if (heroTitle) {
                 heroTitle.innerHTML = TRANSLATIONS[currentLang].hero_title_html;
@@ -1212,7 +1386,7 @@
                 const isBookmarked = bookmarks.includes(book.id);
                 const card = document.createElement('div');
                 card.className = "card-custom border rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between group";
-                const coverImage = book.cover || `https://placehold.co/400x600/10b981/ffffff?text=${encodeURIComponent(book.title)}`;
+                const coverImage = book.cover || `https://placehold.co/400x600/047857/ffffff?text=${encodeURIComponent(book.title)}`;
 
                 card.innerHTML = `
                     <div>
@@ -1260,7 +1434,7 @@
             favBooks.forEach(book => {
                 const item = document.createElement('div');
                 item.className = "flex items-center space-x-3 bg-stone-800/90 p-3 rounded-xl border border-stone-700/50 text-amber-50";
-                const coverImage = book.cover || `https://placehold.co/400x600/10b981/ffffff?text=${encodeURIComponent(book.title)}`;
+                const coverImage = book.cover || `https://placehold.co/400x600/047857/ffffff?text=${encodeURIComponent(book.title)}`;
 
                 item.innerHTML = `
                     <div class="w-12 h-16 bg-stone-700 rounded-lg overflow-hidden flex-shrink-0">
@@ -1292,10 +1466,24 @@
                     stars += i < review.rating ? '<i class="fa-solid fa-star text-amber-400 text-xs"></i>' : '<i class="fa-regular fa-star text-stone-300 text-xs"></i>';
                 }
 
+                // Sentiment tag styling logic
+                const sentimentText = review.sentiment || (currentLang === 'id' ? "Positif" : "Positive");
+                let badgeClass = "bg-stone-100 text-stone-800 border-stone-200";
+                if (["Sangat Positif", "Very Positive", "Inspiratif", "Inspiring"].includes(sentimentText)) {
+                    badgeClass = "bg-emerald-550/10 text-emerald-400 border-emerald-500/20";
+                } else if (["Membangun", "Constructive", "Netral", "Neutral"].includes(sentimentText)) {
+                    badgeClass = "bg-cyan-550/10 text-cyan-400 border-cyan-500/20";
+                }
+
                 block.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class="font-bold text-sm">${review.name}</h4>
+                            <div class="flex items-center space-x-2">
+                                <h4 class="font-bold text-sm">${review.name}</h4>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] border font-semibold ${badgeClass}">
+                                    AI: ${sentimentText}
+                                </span>
+                            </div>
                             <p class="text-[10px] opacity-60">${review.status}</p>
                         </div>
                         <div class="flex space-x-0.5">${stars}</div>
@@ -1310,7 +1498,8 @@
             currentBookId: null,
             currentChapterIndex: 0,
             fontSize: 16,
-            darkTheme: true
+            darkTheme: true,
+            activeTab: 'chapters' // 'chapters' or 'ai'
         };
 
         function openReader(bookId) {
@@ -1324,7 +1513,7 @@
             document.getElementById('reader-title').textContent = book.title;
             document.getElementById('reader-author').textContent = book.author;
             
-            const coverImage = book.cover || `https://placehold.co/400x600/10b981/ffffff?text=${encodeURIComponent(book.title)}`;
+            const coverImage = book.cover || `https://placehold.co/400x600/047857/ffffff?text=${encodeURIComponent(book.title)}`;
             document.getElementById('reader-cover').src = coverImage;
 
             const chaptersContainer = document.getElementById('reader-chapters');
@@ -1341,16 +1530,45 @@
                 chaptersContainer.appendChild(btn);
             });
 
+            // Reset AI Chat for new book context
+            document.getElementById('ai-chat-history').innerHTML = `
+                <div class="text-stone-400 italic text-center py-4" id="ai-chat-placeholder">
+                    <i class="fa-solid fa-circle-question text-lg text-amber-400 mb-1 block"></i>
+                    <span data-i18n="ai_assistant_welcome">${TRANSLATIONS[currentLang].ai_assistant_welcome}</span>
+                </div>
+            `;
+
             const readerSection = document.getElementById('reader-section');
             readerSection.classList.remove('hidden');
             readerSection.scrollIntoView({ behavior: 'smooth' });
 
+            switchReaderTab('chapters');
             updateChapterContent();
         }
 
         function closeReader() {
             document.getElementById('reader-section').classList.add('hidden');
             showToast(TRANSLATIONS[currentLang].reader_closed_toast, "success");
+        }
+
+        function switchReaderTab(tabName) {
+            readerState.activeTab = tabName;
+            const tabChapters = document.getElementById('rtab-chapters');
+            const tabAI = document.getElementById('rtab-ai');
+            const chaptersBox = document.getElementById('reader-chapters-container');
+            const aiBox = document.getElementById('reader-ai-container');
+
+            if (tabName === 'chapters') {
+                tabChapters.className = "flex-1 pb-3 text-xs font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all";
+                tabAI.className = "flex-1 pb-3 text-xs font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-200 transition-all";
+                chaptersBox.classList.remove('hidden');
+                aiBox.classList.add('hidden');
+            } else {
+                tabAI.className = "flex-1 pb-3 text-xs font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all";
+                tabChapters.className = "flex-1 pb-3 text-xs font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-200 transition-all";
+                aiBox.classList.remove('hidden');
+                chaptersBox.classList.add('hidden');
+            }
         }
 
         function updateChapterContent() {
@@ -1390,6 +1608,93 @@
             document.getElementById('btn-next-chapter').style.opacity = readerState.currentChapterIndex === book.chapters.length - 1 ? '0.4' : '1';
             
             contentBox.scrollTop = 0;
+        }
+
+        async function askAIAssistant(presetType = null) {
+            const book = books.find(b => b.id === readerState.currentBookId);
+            if (!book) return;
+
+            const currentChapterText = book.chapters[readerState.currentChapterIndex];
+            const chatInput = document.getElementById('ai-chat-input');
+            let userQuery = chatInput.value.trim();
+
+            if (presetType === 'summary') {
+                userQuery = currentLang === 'id' ? 'Tolong buatkan ringkasan singkat, padat, dan jelas untuk bab ini.' : 'Please provide a concise, clear summary of this chapter.';
+            } else if (presetType === 'quiz') {
+                userQuery = currentLang === 'id' ? 'Buatkan 3 pertanyaan kuis pilihan ganda singkat interaktif beserta kunci jawabannya berdasarkan bab ini.' : 'Create 3 short multiple-choice quiz questions with answer keys based on this chapter.';
+            } else if (presetType === 'vocab') {
+                userQuery = currentLang === 'id' ? 'Identifikasi 3 kata penting atau istilah akademis/sulit di bab ini dan berikan penjelasannya.' : 'Identify 3 important or difficult terms in this chapter and explain them.';
+            }
+
+            if (!userQuery && !presetType) return;
+
+            // Remove placeholder if present
+            const placeholder = document.getElementById('ai-chat-placeholder');
+            if (placeholder) placeholder.remove();
+
+            const chatHistory = document.getElementById('ai-chat-history');
+
+            // Render user message
+            const userBubble = document.createElement('div');
+            userBubble.className = "bg-stone-800 text-stone-100 p-2 rounded-lg self-end max-w-[85%] border border-stone-700/50 mb-2";
+            userBubble.innerHTML = `<span class="font-bold text-[10px] text-amber-400 block">Anda:</span> ${userQuery || chatInput.value}`;
+            chatHistory.appendChild(userBubble);
+            chatInput.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // Render AI Loading Bubble
+            const aiBubble = document.createElement('div');
+            aiBubble.className = "bg-stone-900 text-stone-200 p-2 rounded-lg self-start max-w-[85%] border border-stone-800 mb-2";
+            const loadingId = `ai-msg-${Date.now()}`;
+            aiBubble.id = loadingId;
+            aiBubble.innerHTML = `<span class="font-bold text-[10px] text-cyan-400 block">AI Companion:</span> <span class="animate-pulse">Berpikir...</span>`;
+            chatHistory.appendChild(aiBubble);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const systemPrompt = `You are a warm, helpful reading companion and book tutor inside a digital library app. The user is currently reading Chapter ${readerState.currentChapterIndex + 1} of "${book.title}" by ${book.author}. Answer user questions and perform tasks based only on the provided chapter context. Use clean formatting with HTML breaks or simple styling. Keep explanations concise, clear, and relevant. Answer in ${currentLang === 'id' ? 'Indonesian' : 'English'}.`;
+                
+                const promptText = `Chapter Content:\n"""\n${currentChapterText}\n"""\n\nUser Question/Task: ${userQuery}`;
+                
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: promptText }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("API call failed");
+
+                const result = await response.json();
+                const reply = result.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat memproses saat ini.";
+                
+                const formattedReply = reply
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+                document.getElementById(loadingId).innerHTML = `
+                    <span class="font-bold text-[10px] text-cyan-400 block">AI Companion:</span>
+                    <div class="leading-relaxed whitespace-pre-line text-[11px]">${formattedReply}</div>
+                `;
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById(loadingId).innerHTML = `
+                    <span class="font-bold text-[10px] text-red-400 block">Error:</span>
+                    <span class="text-stone-400">Gagal memuat tanggapan AI. Coba lagi.</span>
+                `;
+            }
         }
 
         function changeChapter(direction) {
@@ -1459,11 +1764,125 @@
             renderBooks();
         }
 
-        function handleSearch() {
-            searchQuery = document.getElementById('global-search').value;
-            renderBooks();
-            const katalog = document.getElementById('katalog');
-            katalog.scrollIntoView({ behavior: 'smooth' });
+        async function handleSearch() {
+            const searchInput = document.getElementById('global-search');
+            searchQuery = searchInput.value.trim();
+
+            const isAISearchEnabled = document.getElementById('ai-search-toggle').checked;
+
+            if (isAISearchEnabled && searchQuery) {
+                // Perform smart AI search with google search grounding!
+                showToast(TRANSLATIONS[currentLang].ai_search_tip, "success");
+                
+                // Set AI Tab inside donation area visible or simulate loading on rak
+                const grid = document.getElementById('books-grid');
+                grid.innerHTML = `
+                    <div class="col-span-full py-24 flex flex-col items-center justify-center space-y-4">
+                        <div class="relative w-16 h-16">
+                            <div class="absolute inset-0 rounded-full border-4 border-stone-200 border-t-cyan-500 animate-spin"></div>
+                            <div class="absolute inset-3 rounded-full border-4 border-stone-200 border-b-amber-400 animate-spin" style="animation-direction: reverse;"></div>
+                        </div>
+                        <p class="text-sm font-bold text-stone-600 animate-pulse" data-i18n="ai_search_tip">${TRANSLATIONS[currentLang].ai_search_tip}</p>
+                    </div>
+                `;
+
+                try {
+                    const systemPrompt = `You are an expert scientific researcher and textbook author. Find comprehensive, factual, up-to-date information on the web about the topic provided. Based on your web findings, construct a digital pocket book in ${currentLang === 'id' ? 'Indonesian' : 'English'} language. The pocket book must have 3 chapters filled with rich detail (at least 150-200 words each). Return ONLY a valid JSON object matching the requested schema.`;
+                    const userQuery = `Search Google for detailed, accurate facts about: "${searchQuery}". Organize this information and generate an educational pocket book based on it.
+                    
+                    Respond strictly in JSON with this format:
+                    {
+                      "title": "A compelling, informative book title representing the query",
+                      "author": "An elegant fictional pseudonym suited for the subject",
+                      "category": "Choose the closest category from: 'Fiksi', 'Sains', 'Pengembangan Diri', 'Sejarah'",
+                      "synopsis": "A summary of the book (2 sentences max)",
+                      "chapters": [
+                        "${currentLang === 'id' ? 'Bab I: [Judul Bab] - [Konten Bab komplit minimal 150 kata dengan fakta akurat]' : 'Chapter I: [Chapter Title] - [Detailed chapter text of at least 150 words based on facts]'}...",
+                        "${currentLang === 'id' ? 'Bab II: [Judul Bab] - [Konten Bab komplit minimal 150 kata dengan fakta akurat]' : 'Chapter II: [Chapter Title] - [Detailed chapter text of at least 150 words based on facts]'}...",
+                        "${currentLang === 'id' ? 'Bab III: [Judul Bab] - [Konten Bab komplit minimal 150 kata dengan fakta akurat]' : 'Chapter III: [Chapter Title] - [Detailed chapter text of at least 150 words based on facts]'}..."
+                      ]
+                    }`;
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        tools: [{ "google_search": {} }], // Google Search Grounding tool is enabled!
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    "title": { "type": "STRING" },
+                                    "author": { "type": "STRING" },
+                                    "category": { "type": "STRING" },
+                                    "synopsis": { "type": "STRING" },
+                                    "chapters": {
+                                        "type": "ARRAY",
+                                        "items": { "type": "STRING" }
+                                    }
+                                },
+                                "required": ["title", "author", "category", "synopsis", "chapters"]
+                            }
+                        },
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        }
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error("Search grounding API failed");
+
+                    const result = await response.json();
+                    const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!jsonText) throw new Error("Grounding returned empty response");
+
+                    const parsedBook = JSON.parse(jsonText);
+                    const randomId = Math.floor(Math.random() * 1000);
+                    const coverUrl = `https://images.unsplash.com/featured/?book,${encodeURIComponent(parsedBook.category)}&sig=${randomId}`;
+
+                    const newGroundedBook = {
+                        id: `ai-search-book-${Date.now()}`,
+                        title: parsedBook.title,
+                        author: parsedBook.author,
+                        category: parsedBook.category || "Sains",
+                        cover: coverUrl,
+                        synopsis: parsedBook.synopsis,
+                        chapters: parsedBook.chapters
+                    };
+
+                    books.unshift(newGroundedBook);
+                    localStorage.setItem(`pj_books_${currentLang}`, JSON.stringify(books));
+                    
+                    // Uncheck search toggle and reset input
+                    document.getElementById('ai-search-toggle').checked = false;
+                    searchInput.value = '';
+                    searchQuery = '';
+
+                    showToast(TRANSLATIONS[currentLang].ai_success_toast, "success");
+                    renderBooks();
+
+                    // Instantly open E-reader on search result
+                    setTimeout(() => {
+                        openReader(newGroundedBook.id);
+                    }, 800);
+
+                } catch (e) {
+                    console.error(e);
+                    showToast(TRANSLATIONS[currentLang].ai_err_toast, "error");
+                    renderBooks();
+                }
+            } else {
+                renderBooks();
+                const katalog = document.getElementById('katalog');
+                katalog.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function handleDonateBook(e) {
@@ -1502,20 +1921,157 @@
             document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function handleAddReview(e) {
+        function switchDonateTab(tabName) {
+            const tabManual = document.getElementById('tab-manual');
+            const tabAI = document.getElementById('tab-ai');
+            const formManual = document.getElementById('form-donate-book');
+            const formAI = document.getElementById('form-ai-book');
+
+            if (tabName === 'manual') {
+                tabManual.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-650 transition-all flex items-center justify-center space-x-2";
+                tabAI.className = "flex-1 pb-3 text-sm font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-600 transition-all flex items-center justify-center space-x-2";
+                formManual.classList.remove('hidden');
+                formAI.classList.add('hidden');
+            } else {
+                tabAI.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-emerald-600 text-emerald-650 transition-all flex items-center justify-center space-x-2";
+                tabManual.className = "flex-1 pb-3 text-sm font-semibold border-b-2 border-transparent text-stone-400 hover:text-stone-600 transition-all flex items-center justify-center space-x-2";
+                formAI.classList.remove('hidden');
+                formManual.classList.add('hidden');
+            }
+        }
+
+        async function handleAIBookGenerate(e) {
             e.preventDefault();
-            const name = document.getElementById('rev-name').value;
-            const status = document.getElementById('rev-status').value;
-            const rating = parseInt(document.getElementById('rev-rating').value);
-            const text = document.getElementById('rev-text').value;
+            
+            const promptInput = document.getElementById('ai-prompt').value;
+            const categorySelect = document.getElementById('ai-category').value;
+            const styleSelect = document.getElementById('ai-style').value;
+            const submitBtn = document.getElementById('btn-ai-generate');
+            const loader = document.getElementById('ai-generating-loader');
+            const loaderText = document.getElementById('ai-loader-text');
 
-            const newReview = { name, status, rating, text };
-            reviews.unshift(newReview);
-            localStorage.setItem(`pj_reviews_${currentLang}`, JSON.stringify(reviews));
+            submitBtn.disabled = true;
+            submitBtn.classList.add('hidden');
+            loader.classList.remove('hidden');
 
-            document.getElementById('form-review').reset();
-            showToast(TRANSLATIONS[currentLang].reviews_success_toast, "success");
-            renderReviews();
+            const loaderSteps = [
+                TRANSLATIONS[currentLang].ai_loader_step1,
+                TRANSLATIONS[currentLang].ai_loader_step2,
+                TRANSLATIONS[currentLang].ai_loader_step3,
+                TRANSLATIONS[currentLang].ai_loader_step4
+            ];
+            let stepIndex = 0;
+            const intervalId = setInterval(() => {
+                if (stepIndex < loaderSteps.length - 1) {
+                    stepIndex++;
+                    loaderText.textContent = loaderSteps[stepIndex];
+                }
+            }, 3000);
+
+            try {
+                const systemPrompt = `You are a world-class book publisher and writer. Generate a high-quality digital book in ${currentLang === 'id' ? 'Indonesian' : 'English'} language. The book should be educational, comprehensive, structured, and engaging.`;
+                const userQuery = `Create a pocket book about the topic: "${promptInput}". 
+                The category is: "${categorySelect}".
+                The writing style is: "${styleSelect}".
+                
+                The book must have exactly 3 chapters. Each chapter must contain rich, detailed explanatory paragraphs (at least 150-200 words per chapter).
+                
+                You MUST return ONLY a JSON response matching this schema:
+                {
+                  "title": "A creative, captivating book title based on the topic",
+                  "author": "An elegant fictional author pseudonym appropriate for the topic",
+                  "synopsis": "A compelling 2-3 sentence description/summary of this book",
+                  "chapters": [
+                    "${currentLang === 'id' ? 'Bab I: [Judul Bab] - [Konten Bab komplit minimal 150 kata]' : 'Chapter I: [Chapter Title] - [Complete detailed chapter text of at least 150 words]'}...",
+                    "${currentLang === 'id' ? 'Bab II: [Judul Bab] - [Konten Bab komplit minimal 150 kata]' : 'Chapter II: [Chapter Title] - [Complete detailed chapter text of at least 150 words]'}...",
+                    "${currentLang === 'id' ? 'Bab III: [Judul Bab] - [Konten Bab komplit minimal 150 kata]' : 'Chapter III: [Chapter Title] - [Complete detailed chapter text of at least 150 words]'}..."
+                  ]
+                }`;
+
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "title": { "type": "STRING" },
+                                "author": { "type": "STRING" },
+                                "synopsis": { "type": "STRING" },
+                                "chapters": {
+                                    "type": "ARRAY",
+                                    "items": { "type": "STRING" }
+                                }
+                            },
+                            "required": ["title", "author", "synopsis", "chapters"]
+                        }
+                    },
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("API call failed");
+
+                const result = await response.json();
+                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!jsonText) throw new Error("Empty response from AI");
+
+                const parsedBook = JSON.parse(jsonText);
+
+                const unsplashKeywords = {
+                    "Fiksi": "book-story",
+                    "Sains": "space-science",
+                    "Pengembangan Diri": "meditation-psychology",
+                    "Sejarah": "history-ancient"
+                };
+                const kw = unsplashKeywords[categorySelect] || "library";
+                const randomId = Math.floor(Math.random() * 1000);
+                const coverUrl = `https://images.unsplash.com/featured/?${kw},book&sig=${randomId}`;
+
+                const newAIBook = {
+                    id: `ai-book-${Date.now()}`,
+                    title: parsedBook.title,
+                    author: parsedBook.author,
+                    category: categorySelect,
+                    cover: coverUrl,
+                    synopsis: parsedBook.synopsis,
+                    chapters: parsedBook.chapters
+                };
+
+                books.unshift(newAIBook);
+                localStorage.setItem(`pj_books_${currentLang}`, JSON.stringify(books));
+
+                document.getElementById('form-ai-book').reset();
+                showToast(TRANSLATIONS[currentLang].ai_success_toast, "success");
+                
+                renderBooks();
+                renderFavorites();
+
+                document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+
+                setTimeout(() => {
+                    openReader(newAIBook.id);
+                }, 800);
+
+            } catch (err) {
+                console.error(err);
+                showToast(TRANSLATIONS[currentLang].ai_err_toast, "error");
+            } finally {
+                clearInterval(intervalId);
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('hidden');
+                loader.classList.add('hidden');
+            }
         }
 
         let timer = {
@@ -1744,10 +2300,60 @@
             activeSynths[type] = null;
         }
 
+        async function handleAddReview(e) {
+            e.preventDefault();
+            const name = document.getElementById('rev-name').value;
+            const status = document.getElementById('rev-status').value;
+            const rating = parseInt(document.getElementById('rev-rating').value, 10);
+            const text = document.getElementById('rev-text').value;
+
+            // Simple loading state
+            showToast("AI sedang menganalisis nada emosi ulasan Anda...", "success");
+
+            let sentimentResult = currentLang === 'id' ? "Sangat Positif" : "Very Positive";
+
+            try {
+                const systemPrompt = "Analyze the sentiment of the provided library review text. Provide a 1-2 word classification only (e.g., 'Sangat Positif', 'Inspiratif', 'Membangun', 'Netral', 'Very Positive', 'Inspiring', 'Constructive', 'Neutral') based on the current context language.";
+                const userQuery = `Review Text: "${text}" with rating ${rating}/5. Identify the sentiment in ${currentLang === 'id' ? 'Indonesian' : 'English'}.`;
+                
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const reply = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (reply) sentimentResult = reply.trim();
+                }
+
+            } catch (err) {
+                console.error("Failed to analyze sentiment", err);
+            }
+
+            const newReview = { name, status, rating, sentiment: sentimentResult, text };
+            reviews.unshift(newReview);
+            localStorage.setItem(`pj_reviews_${currentLang}`, JSON.stringify(reviews));
+
+            document.getElementById('form-review').reset();
+            showToast(TRANSLATIONS[currentLang].reviews_success_toast, "success");
+            renderReviews();
+        }
+
         window.onload = function() {
             initStorage();
             
-            // Set up visual theme
             document.body.className = document.body.className.replace(/\btheme-\w+/g, '');
             document.body.classList.add(`theme-${currentTheme}`);
             
@@ -1757,17 +2363,14 @@
                 currentThemeLabel.setAttribute('data-i18n', themeLabelKey);
             }
 
-            // Set up UI translations
             document.getElementById('current-lang-label').textContent = currentLang.toUpperCase();
             translatePage();
             renderCategoryBar();
             
-            // Render books, bookmarks and reviews dynamically
             renderBooks();
             renderFavorites();
             renderReviews();
             
-            // Add global search enter key handler
             document.getElementById('global-search').placeholder = TRANSLATIONS[currentLang].search_placeholder;
             document.getElementById('global-search').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
